@@ -3,7 +3,6 @@ package com.clouding.airline.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "aviones")
@@ -28,14 +29,16 @@ public class Avion {
 	private String nombre;
 
 	@NotNull
-	@Size(max = 350)
 	private Integer plazas;
 
 	@NotNull
 	@Size(max = 350)
 	private String modelo;
 
-	@OneToMany(mappedBy="avion")
+	/*
+	 * mappedBy = nombre de la propiedad en el objeto JAVA*/
+	@OneToMany(mappedBy = "avion")
+	@JsonBackReference
 	private Set<Vuelo> vuelos = new HashSet<>();
 
 	public String getModelo() {
