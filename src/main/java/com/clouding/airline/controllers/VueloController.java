@@ -18,7 +18,7 @@ public class VueloController {
 	@RequestMapping("/vuelo")
 	List<Vuelo> getVuelos(@RequestParam("nombre") String nombre) {
 		System.out.println("/vuelo");
-		return this.vueloRepository.findByNombre(nombre);
+		return null;
 	}
 	
 	public VueloController() {

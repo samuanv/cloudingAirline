@@ -1,17 +1,22 @@
 package com.clouding.airline.entities;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -62,20 +67,70 @@ public class Vuelo {
 
 	/* foreignKey = nombre de la fk
 	 * name = nombre de la columna en BD*/
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "avion_id", foreignKey=@ForeignKey(name="fk_aviones_id"))
 	@JsonManagedReference
 	private Avion avion;
-
+	
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "aeropuerto_id_origen", foreignKey=@ForeignKey(name="fk_aeropuerto_origen"))
-	@JsonManagedReference
-	private Aeropuerto aeropuerto_origen;
+	private Aeropuerto aeropuertoOrigen;
 
+	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "aeropuerto_id_destino", foreignKey=@ForeignKey(name="fk_aeropuerto_destino"))
-	@JsonManagedReference
-	private Aeropuerto aeropuerto_destino;
+	private Aeropuerto aeropuertoDestino;
+	
+	// Eager para poder consultar todas las reservas de un vuelo
+	@OneToMany(mappedBy = "vuelo", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	private Set<Reserva> reservas = new HashSet<>();
+	
+	public Set<Reserva> getReservas() {
+		return reservas;
+	}
+
+	public void setReservas(Set<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+
+	public void setAeropuertoOrigen(Aeropuerto aeropuertoOrigen) {
+		this.aeropuertoOrigen = aeropuertoOrigen;
+	}
+
+	public Vuelo(@NotNull @Size(max = 100) String nombre, @NotNull Date fechaCreacionReserva,
+			@NotNull Date fechaSalida, @NotNull Date fechaEmbarque, @NotNull int duracion, @NotNull TipoVuelo tipoVuelo,
+			@NotNull float tarifa, Avion avion, Aeropuerto aeropuertoOrigen, Aeropuerto aeropuertoDestino) {
+		super();
+		this.nombre = nombre;
+		this.fechaCreacionReserva = fechaCreacionReserva;
+		this.fechaSalida = fechaSalida;
+		this.fechaEmbarque = fechaEmbarque;
+		this.duracion = duracion;
+		this.tipoVuelo = tipoVuelo;
+		this.tarifa = tarifa;
+		this.avion = avion;
+		this.aeropuertoOrigen = aeropuertoOrigen;
+		this.aeropuertoDestino = aeropuertoDestino;
+	}
+
+
+	public Aeropuerto getAeropuertoOrigen() {
+		return aeropuertoOrigen;
+	}
+
+	public void setAeropuertoOrigin(Aeropuerto aeropuertoOrigen) {
+		this.aeropuertoOrigen = aeropuertoOrigen;
+	}
+
+	public Aeropuerto getAeropuertoDestino() {
+		return aeropuertoDestino;
+	}
+
+	public void setAeropuertoDestino(Aeropuerto aeropuertoDestino) {
+		this.aeropuertoDestino = aeropuertoDestino;
+	}
 
 	public Date getFechaCreacionReserva() {
 		return fechaCreacionReserva;
@@ -146,54 +201,6 @@ public class Vuelo {
 	}
 
 	public void setAvion(Avion avion) {
-		this.avion = avion;
-	}
-
-
-
-	public Vuelo( @NotNull @Size(max = 100) String nombre, @NotNull Date fechaCreacionReserva,
-			@NotNull Date fechaSalida, @NotNull Date fechaEmbarque, @NotNull int duracion, @NotNull TipoVuelo tipoVuelo,
-			@NotNull float tarifa, Avion avion, Aeropuerto aeropuerto_origen, Aeropuerto aeropuerto_destino) {
-		super();
-		this.nombre = nombre;
-		this.fechaCreacionReserva = fechaCreacionReserva;
-		this.fechaSalida = fechaSalida;
-		this.fechaEmbarque = fechaEmbarque;
-		this.duracion = duracion;
-		this.tipoVuelo = tipoVuelo;
-		this.tarifa = tarifa;
-		this.avion = avion;
-		this.aeropuerto_origen = aeropuerto_origen;
-		this.aeropuerto_destino = aeropuerto_destino;
-	}
-
-	public Aeropuerto getAeropuerto_origen() {
-		return aeropuerto_origen;
-	}
-
-	public void setAeropuerto_origen(Aeropuerto aeropuerto_origen) {
-		this.aeropuerto_origen = aeropuerto_origen;
-	}
-
-	public Aeropuerto getAeropuerto_destino() {
-		return aeropuerto_destino;
-	}
-
-	public void setAeropuerto_destino(Aeropuerto aeropuerto_destino) {
-		this.aeropuerto_destino = aeropuerto_destino;
-	}
-
-	public Vuelo(@NotNull @Size(max = 100) String nombre, @NotNull Date fechaCreacionReserva, @NotNull Date fechaSalida,
-			@NotNull Date fechaEmbarque, @NotNull int duracion, @NotNull TipoVuelo tipoVuelo, @NotNull float tarifa,
-			Avion avion) {
-		super();
-		this.nombre = nombre;
-		this.fechaCreacionReserva = fechaCreacionReserva;
-		this.fechaSalida = fechaSalida;
-		this.fechaEmbarque = fechaEmbarque;
-		this.duracion = duracion;
-		this.tipoVuelo = tipoVuelo;
-		this.tarifa = tarifa;
 		this.avion = avion;
 	}
 

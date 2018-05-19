@@ -164,29 +164,31 @@ public class Aeropuerto {
 
 	/*
 	 * mappedBy = nombre de la propiedad en el objeto JAVA*/
-	@OneToMany()
-	@JsonBackReference
-	private Set<Vuelo> vuelos = new HashSet<>();
+	@OneToMany(mappedBy = "aeropuertoOrigen")
+	private Set<Vuelo> vuelosOrigen = new HashSet<>();
 	
+	@OneToMany(mappedBy = "aeropuertoDestino")
+	private Set<Vuelo> vuelosDestino = new HashSet<>();
+	
+
+
 	public Aeropuerto() {
 		
 	}
-	public Aeropuerto(String id, String continente, String coordenadas, float elevacion, String codigoGps,
-			String codigoIata, String isoPais, String isoRegion, String codigoLocal, String municipio, String nombre,
-			String tipo) {
-		super();
-		this.id = id;
-		this.continente = continente;
-		this.coordenadas = coordenadas;
-		this.elevacion = elevacion;
-		this.codigoGps = codigoGps;
-		this.codigoIata = codigoIata;
-		this.isoPais = isoPais;
-		this.isoRegion = isoRegion;
-		this.codigoLocal = codigoLocal;
-		this.municipio = municipio;
-		this.nombre = nombre;
-		this.tipo = tipo;
+
+	public Set<Vuelo> getVuelosOrigen() {
+		return vuelosOrigen;
 	}
 
+	public void setVuelosOrigen(Set<Vuelo> vuelosOrigen) {
+		this.vuelosOrigen = vuelosOrigen;
+	}
+
+	public Set<Vuelo> getVuelosDestino() {
+		return vuelosDestino;
+	}
+
+	public void setVuelosDestino(Set<Vuelo> vuelosDestino) {
+		this.vuelosDestino = vuelosDestino;
+	}
 }
