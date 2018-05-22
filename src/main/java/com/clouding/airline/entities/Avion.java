@@ -3,6 +3,7 @@ package com.clouding.airline.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,7 +38,7 @@ public class Avion {
 
 	/*
 	 * mappedBy = nombre de la propiedad en el objeto JAVA*/
-	@OneToMany(mappedBy = "avion")
+	@OneToMany(cascade= CascadeType.REMOVE, mappedBy = "avion")
 	@JsonBackReference
 	private Set<Vuelo> vuelos = new HashSet<>();
 

@@ -28,7 +28,7 @@ public class Pasajero {
 	@Column(name = "apellidos")
 	private String apellidos;
 	
-	@OneToMany(mappedBy = "pasajero")
+	@OneToMany(mappedBy = "pasajero",cascade= CascadeType.REMOVE)
 	private Set<Reserva> reservas = new HashSet<>();
 
 	public String getDni() {

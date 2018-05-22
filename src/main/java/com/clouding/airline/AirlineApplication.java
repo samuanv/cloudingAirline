@@ -1,5 +1,6 @@
 package com.clouding.airline;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -17,6 +18,7 @@ import com.clouding.airline.repositories.AeropuertoRepository;
 import com.clouding.airline.repositories.AvionRepository;
 import com.clouding.airline.repositories.PasajeroRepository;
 import com.clouding.airline.repositories.ReservaRepository;
+import com.clouding.airline.repositories.ReservaRepository.TotalByMonth;
 import com.clouding.airline.repositories.VueloRepository;
 
 @SpringBootApplication
@@ -33,45 +35,102 @@ public class AirlineApplication {
 			ReservaRepository reservaRepository,
 			PasajeroRepository pasajeroRepository) {
 	    return (args) -> {
-	    	/*// IMPORTAR AEROPUERTOS DESDE EL FICHERO JSON REDUCIDO
-	    	aeroRepository.deleteAllInBatch();
+	    	// IMPORTAR AEROPUERTOS DESDE EL FICHERO JSON REDUCIDO
+	    /*	aeroRepository.deleteAllInBatch();
 			ObjectMapper mapper = new ObjectMapper();
 			Aeropuerto[] aeropuerto = mapper.readValue(new File("./airport-codes_json-min.json"), Aeropuerto[].class);
 			aeroRepository.saveAll(Arrays.asList(aeropuerto));*/
 	    	
 	    	// Clean db
-	    	avionRepository.deleteAllInBatch();
+	    	avionRepository.deleteAll();
 	    	vueloRepository.deleteAllInBatch();
 	    	reservaRepository.deleteAllInBatch();
 	    	pasajeroRepository.deleteAllInBatch();
 	    	
 	    	
-			Aeropuerto a = aeroRepository.findById("00A");
-			Aeropuerto a1 = aeroRepository.findById("00AK");
+			Aeropuerto a = aeroRepository.findById("00TA");
+			Aeropuerto a1 = aeroRepository.findById("00SC");
 			
-	    	Avion avion = new Avion("Avion1", 2, "Modelo1");
+	    	Avion avion = new Avion("Avion1", 20, "Modelo1");
 	    	avionRepository.save(avion);
 	    	Calendar cal = Calendar.getInstance();
 	    	cal.set(Calendar.YEAR, 2018);
 	    	cal.set(Calendar.MONTH, Calendar.MAY);
-	    	cal.set(Calendar.DAY_OF_MONTH, 17);
+	    	cal.set(Calendar.DAY_OF_MONTH, 23);
 	    	Vuelo vuelo = new Vuelo("Vuelo1", new Date(), cal.getTime(), new Date(), 4, Vuelo.TipoVuelo.IDA, 50, avion, a, a1);
 	    	cal.set(Calendar.YEAR, 2018);
 	    	cal.set(Calendar.MONTH, Calendar.MAY);
-	    	cal.set(Calendar.DAY_OF_MONTH, 22);
-	    	Vuelo vuelo1 = new Vuelo("Vuelo2", new Date(), cal.getTime(), new Date(), 4, Vuelo.TipoVuelo.IDA, 80, avion, a, a1);
+	    	cal.set(Calendar.DAY_OF_MONTH, 23);
+	    	cal.set(Calendar.HOUR, 0);
+	    	Vuelo vuelo1 = new Vuelo("Vuelo2", new Date(), cal.getTime(), new Date(), 4, Vuelo.TipoVuelo.IDA, 80, avion, a1, a);
+	    	cal.set(Calendar.YEAR, 2018);
+	    	cal.set(Calendar.MONTH, Calendar.MAY);
+	    	cal.set(Calendar.DAY_OF_MONTH, 17);
+	    	Vuelo vuelo2 = new Vuelo("Vuelo3", new Date(), cal.getTime(), new Date(), 4, Vuelo.TipoVuelo.IDA, 50, avion, a, a1);
+
 	    	vueloRepository.save(vuelo);
 	    	vueloRepository.save(vuelo1);
+	    	vueloRepository.save(vuelo2);
 
 	    	Pasajero pasajero = new Pasajero("11223344","Samuel","Andreo");
 	    	pasajeroRepository.save(pasajero);
 	    	
+			Pasajero pasajero2 = new Pasajero("11244","Pedro","Andreo");
+	    	pasajeroRepository.save(pasajero2);
+	    	
+	    	cal.set(Calendar.MONTH, Calendar.MAY);
+	    	cal.set(Calendar.DAY_OF_MONTH, 17);
+			Reserva reserva = new Reserva(1, false, cal.getTime(), 0, true, vuelo, pasajero);
+	    	cal.set(Calendar.MONTH, Calendar.APRIL);
+			Reserva reserva1 = new Reserva(1, true, cal.getTime(), 25, true, vuelo1, pasajero2);
+	    	cal.set(Calendar.MONTH, Calendar.MARCH);
+			Reserva reserva2 = new Reserva(1, false, cal.getTime(), 0, true, vuelo, pasajero);
+	    	cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+			Reserva reserva3 = new Reserva(1, true, cal.getTime(), 2, true, vuelo, pasajero2);
 
-			Reserva reserva = new Reserva(1, false, new Date(), 0, true, vuelo, pasajero);
-			reservaRepository.save(reserva);
+			reservaRepository.saveAll(Arrays.asList(reserva,reserva1,reserva2,reserva3));
+			
+			Vuelo vEmbarque = vueloRepository.findByNombre("Vuelo2");
+			List<Reserva> sinEmbarcar = reservaRepository.findByAsiento(0);
+			// Si tiene 24 horas de antelación
+			boolean moreThanDay = Math.abs(vEmbarque.getFechaSalida().getTime() - new Date().getTime()) > 24 * 60 * 60 * 1000L;
+			if (!moreThanDay) {
+				// Asigno asiento aleatorio a aquellos que tienen 0 
+				reservaRepository.embarcar(vEmbarque.getId(), vEmbarque.getAvion().getPlazas());
+				for (Reserva res1: sinEmbarcar) {
+					Reserva res = reservaRepository.findById(res1.getId()).get();
+					System.out.println("Q4. Embarcar y devolver pasajeros:" + res.getId() + "------------" + res.getAsiento());
+				}				
+			}
+			
+			/*for (TotalByMonth m: reservaRepository.findTotalByMonth()) {
+				System.out.println("Q8. TotalByMonth:" + m.getMes() + "-" + m.getImporte());
+				
+			}*/
 			
 			
-			System.out.println(reservaRepository.embarcar(vueloRepository.findByNombre("Vuelo1").getId()));
+			/*for(Aeropuerto ae: aeroRepository.findMostProfitable()) {
+				System.out.println("Q7. Destinos que más facturan------"+ ae.getMunicipio()+ "-" + ae.getId());
+			}*/
+			
+			/* Q6
+			for(Pasajero pas : pasajeroRepository.findByCountEmbarque()) {
+				System.out.println("Q6. Ha utilizado más de dos veces el embarque prioritario" + pas.getNombre());
+			};*/
+			
+	    	/* Q5	
+			Reserva re1 = reservaRepository.findAll().get(0);
+	    	boolean moreThanWeek = Math.abs(vEmbarque.getFechaSalida().getTime() - new Date().getTime()) > 168 * 60 * 60 * 1000L;
+			if(!moreThanWeek) {
+				// Cambiar pasajero
+				re1.setPasajero(pasajero2);
+				// Cancelar reserva
+				re1.setActiva(false);
+			}*/
+			
+
+			// reservaRepository.getFreeSeats(vueloRepository.findByNombre("Vuelo2").getId());*/
+			
 			// Puedo hacer esto por el EAGLE en la relacion
 			/*for (Reserva re : vueloRepository.findByNombre("Vuelo1").getReservas()) {
 				System.out.println("Reservas de vuelo1--------------"+re.getPasajero().getNombre());

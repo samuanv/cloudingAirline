@@ -3,6 +3,7 @@ package com.clouding.airline.entities;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -42,13 +43,12 @@ public class Reserva {
 	@Column(name = "activa")
 	private boolean activa;
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "vuelo_id", foreignKey=@ForeignKey(name="fk_vuelos_id"))
-	private Vuelo vuelo;
 
-	@NotNull
-	@ManyToOne
+	@ManyToOne(cascade= CascadeType.REMOVE)
+	private Vuelo vuelo;
+	
+
+	@ManyToOne(cascade= CascadeType.REMOVE)
 	@JoinColumn(name = "pasajero_id", foreignKey=@ForeignKey(name="fk_pasajeros_id"))
 	private Pasajero pasajero;
 	

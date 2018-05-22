@@ -68,7 +68,7 @@ public class Vuelo {
 	/* foreignKey = nombre de la fk
 	 * name = nombre de la columna en BD*/
 	@NotNull
-	@ManyToOne
+	@ManyToOne(cascade= CascadeType.REMOVE)
 	@JoinColumn(name = "avion_id", foreignKey=@ForeignKey(name="fk_aviones_id"))
 	@JsonManagedReference
 	private Avion avion;
@@ -84,7 +84,7 @@ public class Vuelo {
 	private Aeropuerto aeropuertoDestino;
 	
 	// Eager para poder consultar todas las reservas de un vuelo
-	@OneToMany(mappedBy = "vuelo", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "vuelo", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	private Set<Reserva> reservas = new HashSet<>();
 	
 	public Set<Reserva> getReservas() {

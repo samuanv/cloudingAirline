@@ -3,6 +3,7 @@ package com.clouding.airline.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -164,10 +165,10 @@ public class Aeropuerto {
 
 	/*
 	 * mappedBy = nombre de la propiedad en el objeto JAVA*/
-	@OneToMany(mappedBy = "aeropuertoOrigen")
+	@OneToMany(mappedBy = "aeropuertoOrigen", cascade= CascadeType.REMOVE)
 	private Set<Vuelo> vuelosOrigen = new HashSet<>();
 	
-	@OneToMany(mappedBy = "aeropuertoDestino")
+	@OneToMany(mappedBy = "aeropuertoDestino", cascade= CascadeType.REMOVE)
 	private Set<Vuelo> vuelosDestino = new HashSet<>();
 	
 
