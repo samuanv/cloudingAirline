@@ -1,5 +1,6 @@
 package com.clouding.airline;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,6 +22,7 @@ import com.clouding.airline.repositories.AvionRepository;
 import com.clouding.airline.repositories.PasajeroRepository;
 import com.clouding.airline.repositories.ReservaRepository;
 import com.clouding.airline.repositories.VueloRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootApplication
 public class AirlineApplication {
@@ -29,7 +31,7 @@ public class AirlineApplication {
 		SpringApplication.run(AirlineApplication.class, args);
 	}
 	
-	@Bean
+	// @Bean
 	public CommandLineRunner loadData(AeropuertoRepository aeroRepository,
 			VueloRepository vueloRepository,
 			AvionRepository avionRepository,
@@ -38,17 +40,17 @@ public class AirlineApplication {
 			AgenciaRepository agenciaRepository) {
 	    return (args) -> {
 	    	// IMPORTAR AEROPUERTOS DESDE EL FICHERO JSON REDUCIDO
-	    /*	aeroRepository.deleteAllInBatch();
+	    	aeroRepository.deleteAllInBatch();
 			ObjectMapper mapper = new ObjectMapper();
 			Aeropuerto[] aeropuerto = mapper.readValue(new File("./airport-codes_json-min.json"), Aeropuerto[].class);
-			aeroRepository.saveAll(Arrays.asList(aeropuerto));*/
+			aeroRepository.saveAll(Arrays.asList(aeropuerto));
 	    	
 	    	// Clean db
 	    	avionRepository.deleteAll();
 	    	vueloRepository.deleteAllInBatch();
 	    	reservaRepository.deleteAllInBatch();
 	    	pasajeroRepository.deleteAllInBatch();
-	    	
+	    
 	    	
 			Aeropuerto a = aeroRepository.findById("00TA");
 			Aeropuerto a1 = aeroRepository.findById("00SC");

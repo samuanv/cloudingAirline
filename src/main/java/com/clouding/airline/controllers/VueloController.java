@@ -20,6 +20,7 @@ public class VueloController {
 	@Autowired
 	private VueloService service;
 
+
 	@GetMapping
 	List<Vuelo> getVuelos(@RequestParam("id_origen") String idOrigen,
 			@RequestParam("id_destino") String idDestino, @RequestParam("plazas") Integer plazas,
