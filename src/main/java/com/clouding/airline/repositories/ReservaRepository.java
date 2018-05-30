@@ -15,7 +15,8 @@ import com.clouding.airline.entities.Reserva;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
-	List<Reserva> findByAsiento(int asiento);
+	@Transactional
+	Reserva save(Reserva r);
 	
 	/*Q3.1 */
 	@Query("select r " + 
@@ -39,6 +40,10 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 	    int getImporte();
 	    int getMes();
 	}
+	
+	/*Q4 */
+	@Query("SELECT r FROM Reserva r WHERE r.asiento = 0 AND r.vuelo.id = :vueloId AND r.agencia.id = :agenciaId")
+	List<Reserva> retrieveByAsientoAndFecha(@Param("agenciaId") Long agenciaId, @Param("vueloId") Long vueloId);
 	
 	/*Q4.1*/
 	@Transactional
