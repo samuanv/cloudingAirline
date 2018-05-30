@@ -1,5 +1,6 @@
 package com.clouding.airline.repositories;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,11 @@ import com.clouding.airline.entities.Reserva;
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 	List<Reserva> findByAsiento(int asiento);
 	
+	/*Q3 */
+	@Query("select r " + 
+			"from Reserva r \r\n" + 
+			"WHERE r.vuelo. > p.dni AND r.embarquePrioritario = 1 \r\n")
+	List<Reserva> findReservasRealizadas(@Param("agencia") Long id, @Param("today") Date date);
 	/*Q8 */
 	@Query (value = "SELECT MONTH(reservas.fecha_pago) as mes, sum(tarifa) as importe \r\n" + 
 			"FROM reservas, vuelos\r\n" + 
@@ -23,9 +29,7 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 			"group by MONTH(reservas.fecha_pago)", nativeQuery = true)
 	List<TotalByMonth> findTotalByMonth();
 	static interface TotalByMonth {
-
 	    int getImporte();
-
 	    int getMes();
 	}
 	

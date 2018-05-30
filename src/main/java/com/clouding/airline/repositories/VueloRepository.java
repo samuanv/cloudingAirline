@@ -22,7 +22,7 @@ public interface VueloRepository extends JpaRepository<Vuelo, Long> {
 			+ " AND v.reservas.size + :plazas < v.avion.plazas AND v.fechaSalida = :fecha")
 	List<Vuelo> retrieveByFiltersAndFreePax(@Param("idOrigen") String idOrigen,
 			@Param("idDestino") String idDestino,
-			@Param("plazas") int plazas,
+			@Param("plazas") Integer plazas,
 			@Param("fecha") Date fecha);
 	
 	/* Q2: Necesaria query nativa, hql no acepta opoeraciones */
@@ -31,11 +31,7 @@ public interface VueloRepository extends JpaRepository<Vuelo, Long> {
 			+ "ORDER BY v.tarifa DESC", nativeQuery = true)
 	List<Vuelo> retrieveByDateDiff(@Param("fecha") Date fecha);
 	
-	/* Q3.1 */
-	List<Vuelo> findByFechaSalidaGreaterThan(Date fecha);
-	
-	/* Q3.2 */
-	List<Vuelo> findByFechaSalidaLessThan(Date fecha);
+
 	
 
 }

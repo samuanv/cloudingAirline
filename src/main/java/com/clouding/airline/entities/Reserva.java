@@ -52,9 +52,12 @@ public class Reserva {
 	@JoinColumn(name = "pasajero_id", foreignKey=@ForeignKey(name="fk_pasajeros_id"))
 	private Pasajero pasajero;
 	
+	@ManyToOne(cascade= CascadeType.REMOVE)
+	@JoinColumn(name = "agencia_id", foreignKey=@ForeignKey(name="fk_agencia_id"))
+	private Agencia agencia;
 
 	public Reserva(int numBultos, boolean embarquePrioritario, @NotNull Date fechaPago, int asiento,
-			@NotNull boolean activa, @NotNull Vuelo vuelo, @NotNull Pasajero pasajero) {
+			@NotNull boolean activa, @NotNull Vuelo vuelo, @NotNull Pasajero pasajero, @NotNull Agencia agencia) {
 		super();
 		this.numBultos = numBultos;
 		this.embarquePrioritario = embarquePrioritario;
@@ -63,6 +66,15 @@ public class Reserva {
 		this.activa = activa;
 		this.vuelo = vuelo;
 		this.pasajero = pasajero;
+		this.agencia = agencia;
+	}
+
+	public Agencia getAgencia() {
+		return agencia;
+	}
+
+	public void setAgencia(Agencia agencia) {
+		this.agencia = agencia;
 	}
 
 	public Pasajero getPasajero() {
