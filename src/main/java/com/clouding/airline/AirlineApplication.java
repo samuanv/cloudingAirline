@@ -1,5 +1,6 @@
 package com.clouding.airline;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,6 +22,7 @@ import com.clouding.airline.repositories.AvionRepository;
 import com.clouding.airline.repositories.PasajeroRepository;
 import com.clouding.airline.repositories.ReservaRepository;
 import com.clouding.airline.repositories.VueloRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootApplication
 public class AirlineApplication {
@@ -37,18 +39,28 @@ public class AirlineApplication {
 			PasajeroRepository pasajeroRepository,
 			AgenciaRepository agenciaRepository) {
 	    return (args) -> {
-	    	// IMPORTAR AEROPUERTOS DESDE EL FICHERO JSON REDUCIDO
+	    	
+	    	
+	    	// IMPORTAR AEROPUERTOS DESDE EL FICHERO JSON REDUCID
 	    	/*aeroRepository.deleteAllInBatch();
 	    	ObjectMapper mapper = new ObjectMapper();
 			Aeropuerto[] aeropuerto = mapper.readValue(new File("./airport-codes_json-min.json"), Aeropuerto[].class);
 			aeroRepository.saveAll(Arrays.asList(aeropuerto));*/
 			
 
+
+	    	aeroRepository.deleteAllInBatch();
+			ObjectMapper mapper = new ObjectMapper();
+			Aeropuerto[] aeropuerto = mapper.readValue(new File("./airport-codes_json-min.json"), Aeropuerto[].class);
+			aeroRepository.saveAll(Arrays.asList(aeropuerto));
+	    	
+
 	    	// Clean db
 	    	avionRepository.deleteAll();
 	    	vueloRepository.deleteAllInBatch();
 	    	reservaRepository.deleteAllInBatch();
 	    	pasajeroRepository.deleteAllInBatch();
+
 	    	
 	    	//AEROPUERTOS
 			Aeropuerto a = aeroRepository.findById("00TA");
@@ -172,7 +184,7 @@ public class AirlineApplication {
 			fpago = createNewDate(6,2,2018,7,30);
 			Reserva reserva6 = new Reserva(1, true, fpago.getTime(), 4, true, vuelo1, pasajero, agencia);
 
-			reservaRepository.saveAll(Arrays.asList(reserva,reserva1,reserva2,reserva3));
+			reservaRepository.saveAll(Arrays.asList(reserva,reserva1,reserva2,reserva3,reserva4,reserva6));
 			
 			/*Vuelo vEmbarque = vueloRepository.findByNombre("Vuelo2");
 			List<Reserva> sinEmbarcar = reservaRepository.findByAsiento(0);

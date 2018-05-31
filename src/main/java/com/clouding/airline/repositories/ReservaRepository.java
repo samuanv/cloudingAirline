@@ -10,17 +10,33 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.clouding.airline.entities.Agencia;
 import com.clouding.airline.entities.Reserva;
 
 @Repository
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
-	List<Reserva> findByAsiento(int asiento);
+	@Transactional
+	Reserva save(Reserva r);
 	
+<<<<<<< HEAD
 	/*Q3 */
 //	@Query("select r " + 
 //			"from Reserva r \r\n" + 
 //			"WHERE r.vuelo.fechaSalida > p.dni AND r.embarquePrioritario = 1 \r\n")
 //	List<Reserva> findReservasRealizadas(@Param("agencia") Long id, @Param("today") Date date);
+=======
+	/*Q3.1 */
+	@Query("select r " + 
+			"from Reserva r \r\n" + 
+			"WHERE r.vuelo.fechaSalida > :today AND r.agencia = :agencia \r\n")
+	List<Reserva> findReservasRealizadasPendientes(@Param("agencia") Agencia agencia, @Param("today") Date today);
+	/*Q3.2 */
+	@Query("select r " + 
+			"from Reserva r \r\n" + 
+			"WHERE r.vuelo.fechaSalida < :today AND r.agencia = :agencia \r\n")
+	List<Reserva> findReservasRealizadasFinalizadas(@Param("agencia") Agencia agencia, @Param("today") Date today);
+	
+>>>>>>> 9cc84312ddfce382f52725c8397c7ff4f6cbdf7f
 	/*Q8 */
 	@Query (value = "SELECT MONTH(reservas.fecha_pago) as mes, sum(tarifa) as importe \r\n" + 
 			"FROM reservas, vuelos\r\n" + 
@@ -32,6 +48,10 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 	    int getImporte();
 	    int getMes();
 	}
+	
+	/*Q4 */
+	@Query("SELECT r FROM Reserva r WHERE r.asiento = 0 AND r.vuelo.id = :vueloId AND r.agencia.id = :agenciaId")
+	List<Reserva> retrieveByAsientoAndFecha(@Param("agenciaId") Long agenciaId, @Param("vueloId") Long vueloId);
 	
 	/*Q4.1*/
 	@Transactional
