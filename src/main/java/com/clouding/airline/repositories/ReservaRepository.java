@@ -17,14 +17,6 @@ import com.clouding.airline.entities.Reserva;
 public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 	@Transactional
 	Reserva save(Reserva r);
-	
-<<<<<<< HEAD
-	/*Q3 */
-//	@Query("select r " + 
-//			"from Reserva r \r\n" + 
-//			"WHERE r.vuelo.fechaSalida > p.dni AND r.embarquePrioritario = 1 \r\n")
-//	List<Reserva> findReservasRealizadas(@Param("agencia") Long id, @Param("today") Date date);
-=======
 	/*Q3.1 */
 	@Query("select r " + 
 			"from Reserva r \r\n" + 
@@ -35,8 +27,6 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 			"from Reserva r \r\n" + 
 			"WHERE r.vuelo.fechaSalida < :today AND r.agencia = :agencia \r\n")
 	List<Reserva> findReservasRealizadasFinalizadas(@Param("agencia") Agencia agencia, @Param("today") Date today);
-	
->>>>>>> 9cc84312ddfce382f52725c8397c7ff4f6cbdf7f
 	/*Q8 */
 	@Query (value = "SELECT MONTH(reservas.fecha_pago) as mes, sum(tarifa) as importe \r\n" + 
 			"FROM reservas, vuelos\r\n" + 
