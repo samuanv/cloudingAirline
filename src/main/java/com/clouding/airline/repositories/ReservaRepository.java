@@ -17,10 +17,10 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
 	List<Reserva> findByAsiento(int asiento);
 	
 	/*Q3 */
-	@Query("select r " + 
-			"from Reserva r \r\n" + 
-			"WHERE r.vuelo. > p.dni AND r.embarquePrioritario = 1 \r\n")
-	List<Reserva> findReservasRealizadas(@Param("agencia") Long id, @Param("today") Date date);
+//	@Query("select r " + 
+//			"from Reserva r \r\n" + 
+//			"WHERE r.vuelo.fechaSalida > p.dni AND r.embarquePrioritario = 1 \r\n")
+//	List<Reserva> findReservasRealizadas(@Param("agencia") Long id, @Param("today") Date date);
 	/*Q8 */
 	@Query (value = "SELECT MONTH(reservas.fecha_pago) as mes, sum(tarifa) as importe \r\n" + 
 			"FROM reservas, vuelos\r\n" + 

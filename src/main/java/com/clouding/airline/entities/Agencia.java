@@ -23,11 +23,17 @@ public class Agencia {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_agencia")
 	private Long id;
+	
+	@NotNull
+	@Size(max = 100)
+	@Column(unique = true)
+	private String name;
 
 	@NotNull
 	@Size(max = 100)
 	@Column(unique = true)
 	private String username;
+	
 
 	@NotNull
 	private String password;
@@ -37,8 +43,9 @@ public class Agencia {
 	}
 	
 	
-	public Agencia(@NotNull @Size(max = 100) String username, @NotNull String password) {
+	public Agencia(@NotNull @Size(max = 100) String name, @NotNull @Size(max = 100) String username, @NotNull String password) {
 		super();
+		this.name = name;
 		this.username = username;
 		this.password = password;
 	}
@@ -51,6 +58,13 @@ public class Agencia {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	public String getUsername() {
 		return username;

@@ -38,59 +38,139 @@ public class AirlineApplication {
 			AgenciaRepository agenciaRepository) {
 	    return (args) -> {
 	    	// IMPORTAR AEROPUERTOS DESDE EL FICHERO JSON REDUCIDO
-	    /*	aeroRepository.deleteAllInBatch();
-			ObjectMapper mapper = new ObjectMapper();
+	    	/*aeroRepository.deleteAllInBatch();
+	    	ObjectMapper mapper = new ObjectMapper();
 			Aeropuerto[] aeropuerto = mapper.readValue(new File("./airport-codes_json-min.json"), Aeropuerto[].class);
 			aeroRepository.saveAll(Arrays.asList(aeropuerto));*/
-	    	
+			
+
 	    	// Clean db
 	    	avionRepository.deleteAll();
 	    	vueloRepository.deleteAllInBatch();
 	    	reservaRepository.deleteAllInBatch();
 	    	pasajeroRepository.deleteAllInBatch();
 	    	
-	    	
+	    	//AEROPUERTOS
 			Aeropuerto a = aeroRepository.findById("00TA");
 			Aeropuerto a1 = aeroRepository.findById("00SC");
 			
-	    	Avion avion = new Avion("Avion1", 20, "Modelo1");
+			//AVIONES
+	    	Avion avion = new Avion("Real Madrid Plane", 100, "Boeing 13");
 	    	avionRepository.save(avion);
-	    	Calendar cal = Calendar.getInstance();
-	    	cal.set(Calendar.YEAR, 2018);
-	    	cal.set(Calendar.MONTH, Calendar.MAY);
-	    	cal.set(Calendar.DAY_OF_MONTH, 23);
-	    	Vuelo vuelo = new Vuelo("Vuelo1", new Date(), cal.getTime(), new Date(), 4, Vuelo.TipoVuelo.IDA, 50, avion, a, a1);
-	    	cal.set(Calendar.YEAR, 2018);
-	    	cal.set(Calendar.MONTH, Calendar.MAY);
-	    	cal.set(Calendar.DAY_OF_MONTH, 23);
-	    	cal.set(Calendar.HOUR, 0);
-	    	Vuelo vuelo1 = new Vuelo("Vuelo2", new Date(), cal.getTime(), new Date(), 4, Vuelo.TipoVuelo.IDA, 80, avion, a1, a);
-	    	cal.set(Calendar.YEAR, 2018);
-	    	cal.set(Calendar.MONTH, Calendar.MAY);
-	    	cal.set(Calendar.DAY_OF_MONTH, 17);
-	    	Vuelo vuelo2 = new Vuelo("Vuelo3", new Date(), cal.getTime(), new Date(), 4, Vuelo.TipoVuelo.IDA, 50, avion, a, a1);
+	    	Avion avion1 = new Avion("TWCAM Plane", 10, "Boeing 10");
+	    	avionRepository.save(avion);
+	    
+	    	
+	    	
+	    	// VUELOS
+	    	Calendar fembarque = createNewDate(30,05,2018,22,15); 
+	    	Calendar fsalida = createNewDate(30,05,2018,22,30);
+	    	Calendar freserva = createNewDate(01,01,2018,11,20);
+	    	
+	    	Vuelo vuelo = new Vuelo("E557170", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA, 50, avion, a, a1);
+	    	
+	    	fembarque = createNewDate(25,3,2018,19,40); 
+	    	fsalida = createNewDate(25,3,2018,19,55);
+	    	freserva = createNewDate(25,12,2017,00,01);
+	    	
+	    	Vuelo vuelo1 = new Vuelo("E557171", freserva.getTime() , fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA, 80, avion1, a1, a);
+	    	
+	    	
+	    	// mismo dia, aviones dieferentes
+	    	
+	    	fembarque = createNewDate(2,1,2018,12,00);
+	    	fsalida = createNewDate(2,1,2018,12,15);
+	    	freserva = createNewDate(8,12,2017,00,01);
+	    
+	    	
+	    	Vuelo vuelo2 = new Vuelo("E557169", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA, 50, avion, a, a1);
+	    	
+	    	fembarque = createNewDate(5,10,2018,12,00);
+	    	fsalida = createNewDate(5,10,2018,12,15);
+	    	freserva = createNewDate(8,5,2017,00,01);
+	    
+	    	
+	    	Vuelo vuelo3 = new Vuelo("E550011", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 80, avion1, a, a1);
+	    	
+	    	
+	    	fembarque = createNewDate(5,10,2018,16,00);
+	    	fsalida = createNewDate(5,10,2018,16,15);
+	    	freserva = createNewDate(8,5,2017,12,00);
+	    	
+	    	
+	    	Vuelo vuelo4 = new Vuelo("E550022", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 50, avion, a, a1);
+	    	
+	    	// 3 dias antes/despues
+	    	
+	    	fembarque = createNewDate(2,6,2018,15,00);
+	    	fsalida = createNewDate(2,6,2018,15,15);
+	    	freserva = createNewDate(12,3,2018,22,25);
+	    	
+	    	Vuelo vuelo5 = new Vuelo("E550033", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 70, avion, a1, a);
+	    	
+	    	fembarque = createNewDate(3,6,2018,15,00);
+	    	fsalida = createNewDate(3,6,2018,15,15);
+	    	freserva = createNewDate(12,3,2018,22,25);
+	    	
+	    	Vuelo vuelo6 = new Vuelo("E550044", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 40, avion, a1, a);
+	    	
+	    	fembarque = createNewDate(31,5,2018,15,00);
+	    	fsalida = createNewDate(31,5,2018,15,15);
+	    	freserva = createNewDate(12,3,2018,22,25);
+	    	
+	    	Vuelo vuelo7 = new Vuelo("E550055", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 100, avion, a1, a);
 
 	    	vueloRepository.save(vuelo);
 	    	vueloRepository.save(vuelo1);
 	    	vueloRepository.save(vuelo2);
-
+	    	vueloRepository.save(vuelo3);
+	    	vueloRepository.save(vuelo4);
+	    	vueloRepository.save(vuelo5);
+	    	vueloRepository.save(vuelo6);
+	    	vueloRepository.save(vuelo7);
+	    	
+	    	
+	    	// PASAJEROS
 	    	Pasajero pasajero = new Pasajero("11223344","Samuel","Andreo");
 	    	pasajeroRepository.save(pasajero);
 	    	
-			Pasajero pasajero2 = new Pasajero("11244","Pedro","Andreo");
+			Pasajero pasajero1 = new Pasajero("22441133","Pedro","Andreo");
+	    	pasajeroRepository.save(pasajero1);
+	    	
+	    	Pasajero pasajero2 = new Pasajero("113332244","Mateo","Bernal");
 	    	pasajeroRepository.save(pasajero2);
 	    	
-	    	Agencia agencia = new Agencia("agencia1","agencia1");
+	    	Pasajero pasajero3 = new Pasajero("44332211","Eduardo","Fonte");
+	    	pasajeroRepository.save(pasajero3);
+	    	
+	    	// AGENCIAS
+	    	Agencia agencia = new Agencia("Burjassot vuelos","agencia1", "agencia1");
 	    	agenciaRepository.save(agencia);
-	    	cal.set(Calendar.MONTH, Calendar.MAY);
-	    	cal.set(Calendar.DAY_OF_MONTH, 17);
-			Reserva reserva = new Reserva(1, false, cal.getTime(), 0, true, vuelo, pasajero, agencia);
-	    	cal.set(Calendar.MONTH, Calendar.APRIL);
-			Reserva reserva1 = new Reserva(1, true, cal.getTime(), 25, true, vuelo1, pasajero2, agencia);
-	    	cal.set(Calendar.MONTH, Calendar.MARCH);
-			Reserva reserva2 = new Reserva(1, false, cal.getTime(), 0, true, vuelo, pasajero, agencia);
-	    	cal.set(Calendar.MONTH, Calendar.FEBRUARY);
-			Reserva reserva3 = new Reserva(1, true, cal.getTime(), 2, true, vuelo, pasajero2, agencia);
+	    	
+	    	Agencia agencia1 = new Agencia("Totana vuelos","agencia2", "agencia2");
+	    	agenciaRepository.save(agencia1);
+	    	
+	    	Agencia agencia2 = new Agencia("Elche airlines internacional","agencia3", "agencia3");
+	    	agenciaRepository.save(agencia2);
+	 
+	    	
+	    	// RESERVAS
+	    	Calendar fpago = createNewDate(17,5,2018,17,30);
+			Reserva reserva = new Reserva(1, false, fpago.getTime(), 0, true, vuelo, pasajero1, agencia1);
+			fpago = createNewDate(9,4,2018,17,00);
+			Reserva reserva1 = new Reserva(1, true, fpago.getTime(), 25, true, vuelo1, pasajero, agencia1);
+			fpago = createNewDate(7,3,2018,16,30);
+			Reserva reserva2 = new Reserva(1, false, fpago.getTime(), 0, true, vuelo, pasajero1, agencia1);
+			fpago = createNewDate(1,2,2018,7,30);
+			Reserva reserva3 = new Reserva(1, true, fpago.getTime(), 2, true, vuelo, pasajero, agencia1);
+			
+			// Nos vamos de viaje en el TWCAM plane, Samuel en vip, el siempre va en vip.
+			fpago = createNewDate(6,2,2018,7,30);
+			Reserva reserva4 = new Reserva(1, false, fpago.getTime(), 1, true, vuelo1, pasajero2, agencia);
+			fpago = createNewDate(6,2,2018,7,30);
+			Reserva reserva5 = new Reserva(1, false, fpago.getTime(), 3, true, vuelo1, pasajero3, agencia);
+			fpago = createNewDate(6,2,2018,7,30);
+			Reserva reserva6 = new Reserva(1, true, fpago.getTime(), 4, true, vuelo1, pasajero, agencia);
 
 			reservaRepository.saveAll(Arrays.asList(reserva,reserva1,reserva2,reserva3));
 			
@@ -154,5 +234,14 @@ public class AirlineApplication {
 				System.out.println("Q3.2. Vuelos que ya han ocurrido--------------"+v.getNombre());
 			}*/
 	    };
+	}
+	public Calendar createNewDate(int day, int month, int year, int hour, int minute) {
+		Calendar cal = Calendar.getInstance();
+    	cal.set(Calendar.YEAR, year);
+    	cal.set(Calendar.MONTH, month);
+    	cal.set(Calendar.DAY_OF_MONTH, day);
+    	cal.set(Calendar.HOUR_OF_DAY, hour);
+    	cal.set(Calendar.MINUTE, minute);
+    	return cal;
 	}
 }
