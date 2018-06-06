@@ -31,7 +31,7 @@ public class AirlineApplication {
 		SpringApplication.run(AirlineApplication.class, args);
 	}
 	
-	@Bean
+	// @Bean
 	public CommandLineRunner loadData(AeropuertoRepository aeroRepository,
 			VueloRepository vueloRepository,
 			AvionRepository avionRepository,
@@ -70,7 +70,7 @@ public class AirlineApplication {
 	    	Avion avion = new Avion("Real Madrid Plane", 100, "Boeing 13");
 	    	avionRepository.save(avion);
 	    	Avion avion1 = new Avion("TWCAM Plane", 10, "Boeing 10");
-	    	avionRepository.save(avion);
+	    	avionRepository.save(avion1);
 	    
 	    	
 	    	

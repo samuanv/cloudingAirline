@@ -19,11 +19,12 @@ public interface VueloRepository extends JpaRepository<Vuelo, Long> {
 	/* Q1 */
 	@Query("SELECT v FROM Vuelo v "
 			+ "WHERE v.aeropuertoOrigen.id = :idOrigen AND v.aeropuertoDestino.id = :idDestino"
-			+ " AND v.reservas.size + :plazas < v.avion.plazas AND v.fechaSalida = :fecha")
+			+ " AND v.reservas.size + :plazas < v.avion.plazas AND v.fechaSalida > :fechaMin AND v.fechaSalida < :fechaMax")
 	List<Vuelo> retrieveByFiltersAndFreePax(@Param("idOrigen") String idOrigen,
 			@Param("idDestino") String idDestino,
 			@Param("plazas") Integer plazas,
-			@Param("fecha") Date fecha);
+			@Param("fechaMin") Date fechaMin,
+			@Param("fechaMax") Date fechaMax);
 	
 	/* Q2: Necesaria query nativa, hql no acepta opoeraciones */
 	@Query(value="SELECT * FROM vuelos v "

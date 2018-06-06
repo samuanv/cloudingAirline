@@ -67,7 +67,6 @@ public class Vuelo {
 
 	/* foreignKey = nombre de la fk
 	 * name = nombre de la columna en BD*/
-	@NotNull
 	@ManyToOne(cascade= CascadeType.REMOVE)
 	@JoinColumn(name = "avion_id", foreignKey=@ForeignKey(name="fk_aviones_id"))
 	@JsonManagedReference
