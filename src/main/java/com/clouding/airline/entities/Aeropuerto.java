@@ -165,7 +165,7 @@ public class Aeropuerto {
 
 	/*
 	 * mappedBy = nombre de la propiedad en el objeto JAVA*/
-	/*@OneToMany(mappedBy = "aeropuertoOrigen", cascade= CascadeType.REMOVE)
+   	@OneToMany(mappedBy = "aeropuertoOrigen", cascade= CascadeType.REMOVE)
 	private Set<Vuelo> vuelosOrigen = new HashSet<>();
 	
 	@OneToMany(mappedBy = "aeropuertoDestino", cascade= CascadeType.REMOVE)
@@ -191,5 +191,5 @@ public class Aeropuerto {
 
 	public void setVuelosDestino(Set<Vuelo> vuelosDestino) {
 		this.vuelosDestino = vuelosDestino;
-	}*/
+	}
 }
