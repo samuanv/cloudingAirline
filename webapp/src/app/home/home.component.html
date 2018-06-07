@@ -1,0 +1,103 @@
+<h2>Vuelos disponibles</h2>
+
+<clr-datagrid>
+    <clr-dg-action-bar>
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="onAdd()">
+                <clr-icon shape="plus"></clr-icon> Nuevo vuelo</button>
+        </div>
+    </clr-dg-action-bar>
+    <clr-dg-column>Id</clr-dg-column>
+    <clr-dg-column>Nombre
+        <clr-dg-string-filter [clrDgStringFilter]="nameFilter"></clr-dg-string-filter>
+    </clr-dg-column>
+    <clr-dg-column>Fecha de salida</clr-dg-column>
+    <clr-dg-column>Origen</clr-dg-column>
+    <clr-dg-column>Destino</clr-dg-column>
+    <clr-dg-column>Precio</clr-dg-column>
+    <clr-dg-column>Ocupación</clr-dg-column>
+
+    <clr-dg-row *ngFor="let vuelo of vuelos">
+        <clr-dg-cell>{{vuelo.id}}</clr-dg-cell>
+        <clr-dg-cell>{{vuelo.nombre}}</clr-dg-cell>
+        <clr-dg-cell>{{vuelo.fechaSalida | date:'medium'}}</clr-dg-cell>
+        <clr-dg-cell>
+            <span class="flag-icon flag-icon-{{vuelo.aeropuertoOrigen_pais}}"></span>
+            {{vuelo.aeropuertoOrigen_nombre}} ({{vuelo.aeropuertoOrigen_id}})
+        </clr-dg-cell>
+        <clr-dg-cell>
+            <span class="flag-icon flag-icon-{{vuelo.aeropuertoDestino_pais}}"></span>
+            {{vuelo.aeropuertoDestino_nombre}} ({{vuelo.aeropuertoDestino_id}})</clr-dg-cell>
+        <clr-dg-cell>{{vuelo.tarifa}} €</clr-dg-cell>
+        <clr-dg-cell>
+            <div class="progress flash-danger">
+                <progress [value]="vuelo.plazasTotales - vuelo.plazasLibres" [max]="vuelo.plazasTotales"></progress>
+            </div>
+        </clr-dg-cell>
+
+        <clr-dg-row-detail *clrIfExpanded>
+            <span>
+                <strong>Plazas disponibles: </strong>{{vuelo.plazasLibres}}/{{vuelo.plazasTotales}}</span>
+            <span>
+
+                <strong>Tipo: </strong> {{vuelo.tipoVuelo}}</span>
+            <span>
+                <strong>Fecha y hora embarque: </strong> {{vuelo.fechaEmbarque | date:'medium'}}</span>
+            <span>
+                <strong>Fecha y hora creacion: </strong> {{vuelo.fechaCreacionReserva | date:'medium'}}</span>
+        </clr-dg-row-detail>
+    </clr-dg-row>
+
+    <clr-dg-footer>{{vuelos?.length}} vuelos</clr-dg-footer>
+</clr-datagrid>
+
+<clr-wizard #wizardlg [(clrWizardOpen)]="wizardOpened" clrWizardSize="lg">
+    <clr-wizard-title>Nuevo vuelo</clr-wizard-title>
+
+    <clr-wizard-button [type]="'cancel'">Cancelar</clr-wizard-button>
+    <clr-wizard-button [type]="'previous'">Atrás</clr-wizard-button>
+    <clr-wizard-button [type]="'next'">Siguiente</clr-wizard-button>
+    <clr-wizard-button [type]="'finish'">Finalizar</clr-wizard-button>
+
+    <clr-wizard-page>
+        <ng-template clrPageTitle>General</ng-template>
+        <form>
+            <section class="form-block">
+                <label>Información general</label>
+                <div class="form-group">
+                    <label for="aForm_1">This is a form field</label>
+                    <input type="text" id="aForm_1" placeholder="Enter value here" size="45">
+                </div>
+                <div class="form-group">
+                    <label for="aForm_2">Another form field</label>
+                    <input type="password" id="aForm_2" placeholder="Enter another value here" size="35">
+                </div>
+                <div class="form-group">
+                    <label for="aForm_3">A select box</label>
+                    <div class="select">
+                        <select id="aForm_3">
+                            <option>Option 1</option>
+                            <option>Option 2</option>
+                            <option>Option 3</option>
+                            <option>Option 4</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="aForm_4">Textarea</label>
+                    <textarea id="aForm_4" rows="5"></textarea>
+                </div>
+            </section>
+        </form>
+    </clr-wizard-page>
+
+    <clr-wizard-page>
+        <ng-template clrPageTitle>Page 2</ng-template>
+        ...
+    </clr-wizard-page>
+
+    <clr-wizard-page>
+        <ng-template clrPageTitle>Page 3</ng-template>
+        ...
+    </clr-wizard-page>
+</clr-wizard>
