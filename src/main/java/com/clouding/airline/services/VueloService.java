@@ -57,7 +57,8 @@ public class VueloService {
 		vueloDTO.setPlazasTotales(vuelo.getAvion().getPlazas());
 		vueloDTO.setAeropuertoDestino_nombre(vuelo.getAeropuertoDestino().getNombre());
 		vueloDTO.setAeropuertoOrigen_nombre(vuelo.getAeropuertoOrigen().getNombre());
-
+		vueloDTO.setAeropuertoDestino_pais(vuelo.getAeropuertoDestino().getIsoPais());
+		vueloDTO.setAeropuertoOrigen_pais(vuelo.getAeropuertoOrigen().getIsoPais());
 		return vueloDTO;
 	}
 
@@ -71,6 +72,11 @@ public class VueloService {
 
 	public Vuelo convertToVuelo(VueloDTO vueloDTO) {
 		Vuelo vuelo = modelMapper.map(vueloDTO, Vuelo.class);
+
+		System.out.println(vueloDTO.getAeropuertoDestino_id());
+		System.out.println(vueloDTO.getAeropuertoOrigen_id());
+		System.out.println(vueloDTO.getAvion_id());
+		System.out.println(vueloDTO.getNombre());
 		vuelo.setAeropuertoDestino(aeropuertoRepository.findById(vueloDTO.getAeropuertoDestino_id()));
 		vuelo.setAeropuertoOrigen(aeropuertoRepository.findById(vueloDTO.getAeropuertoOrigen_id()));
 		vuelo.setAvion(avionRepository.findById(vueloDTO.getAvion_id()).get());

@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,7 +38,23 @@ public class Agencia {
 
 	@NotNull
 	private String password;
-
+	/*
+	 * mappedBy = nombre de la propiedad en el objeto JAVA*/
+	@OneToMany(mappedBy = "agencia", cascade= CascadeType.REMOVE, fetch= FetchType.EAGER)
+	private Set<Reserva> reservas = new HashSet<>();
+	
+	/**
+	 * @return the reservas
+	 */
+	public Set<Reserva> getReservas() {
+		return reservas;
+	}
+	/**
+	 * @param reservas the reservas to set
+	 */
+	public void setReservas(Set<Reserva> reservas) {
+		this.reservas = reservas;
+	}
 	public Agencia () {
 		
 	}

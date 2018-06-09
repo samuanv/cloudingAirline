@@ -56,7 +56,6 @@ public class Vuelo {
 	@Column(name = "duracion")
 	private int duracion;
 
-	@NotNull
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_vuelo")
 	private TipoVuelo tipoVuelo;
@@ -99,7 +98,7 @@ public class Vuelo {
 	}
 
 	public Vuelo(@NotNull @Size(max = 100) String nombre, @NotNull Date fechaCreacionReserva,
-			@NotNull Date fechaSalida, @NotNull Date fechaEmbarque, @NotNull int duracion, @NotNull TipoVuelo tipoVuelo,
+			@NotNull Date fechaSalida, @NotNull Date fechaEmbarque, @NotNull int duracion, TipoVuelo tipoVuelo,
 			@NotNull float tarifa, Avion avion, Aeropuerto aeropuertoOrigen, Aeropuerto aeropuertoDestino) {
 		super();
 		this.nombre = nombre;

@@ -7,18 +7,20 @@ import { ClarityModule } from '@clr/angular';
 import { AppComponent } from './app.component';
 import { ROUTING } from "./app.routing";
 import { HomeComponent } from "./home/home.component";
-import { AboutComponent } from "./about/about.component";
 import { HttpClientModule } from "@angular/common/http";
 import es from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
+import { AgenciaComponent } from './agencia/agencia.component';
 
 registerLocaleData(es);
 @NgModule({
     declarations: [
         AppComponent,
-        AboutComponent,
+        AgenciaComponent,
         HomeComponent
-    ],
+,
+    AgenciaComponent
+],
     imports: [
         BrowserAnimationsModule,
         BrowserModule,

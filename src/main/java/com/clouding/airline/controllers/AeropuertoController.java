@@ -16,4 +16,8 @@ public class AeropuertoController {
     List<AeropuertoDTO> getTopDestinations() {
         return service.convertToDto(service.getTopDestinations());
     }
+    @GetMapping()
+    List<AeropuertoDTO> getAeropuertos() {
+        return service.convertToDto(service.getAeropuertos());
+    }
 }

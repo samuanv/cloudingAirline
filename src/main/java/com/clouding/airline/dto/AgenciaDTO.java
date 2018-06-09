@@ -5,7 +5,20 @@ public class AgenciaDTO {
     private String name;
     private String username;
     private String password;
+    private Integer num_reservas;
 
+    /**
+     * @return the num_reservas
+     */
+    public Integer getNum_reservas() {
+        return num_reservas;
+    }
+    /**
+     * @param num_reservas the num_reservas to set
+     */
+    public void setNum_reservas(Integer num_reservas) {
+        this.num_reservas = num_reservas;
+    }
     public AgenciaDTO() {
     }
 

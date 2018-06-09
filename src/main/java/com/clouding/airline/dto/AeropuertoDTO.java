@@ -15,8 +15,6 @@ public class AeropuertoDTO {
     private String municipio;
     private String nombre;
     private String tipo;
-    private List<Long> vuelosDestino;
-    private List<Long> vuelosOrigen;
 
     public AeropuertoDTO() {
 
@@ -116,21 +114,5 @@ public class AeropuertoDTO {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
-    }
-
-    public List<Long> getVuelosDestino() {
-        return vuelosDestino;
-    }
-
-    public void setVuelosDestino(List<Long> vuelosDestino) {
-        this.vuelosDestino = vuelosDestino;
-    }
-
-    public List<Long> getVuelosOrigen() {
-        return vuelosOrigen;
-    }
-
-    public void setVuelosOrigen(List<Long> vuelosOrigen) {
-        this.vuelosOrigen = vuelosOrigen;
     }
 }
