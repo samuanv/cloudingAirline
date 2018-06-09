@@ -40,18 +40,10 @@ public class AirlineApplication {
 			AgenciaRepository agenciaRepository) {
 	    return (args) -> {
 	    	
-	    	
-	    	// IMPORTAR AEROPUERTOS DESDE EL FICHERO JSON REDUCID
-	    	/*aeroRepository.deleteAllInBatch();
-	    	ObjectMapper mapper = new ObjectMapper();
-			Aeropuerto[] aeropuerto = mapper.readValue(new File("./airport-codes_json-min.json"), Aeropuerto[].class);
-			aeroRepository.saveAll(Arrays.asList(aeropuerto));*/
-			
-
 
 	    	aeroRepository.deleteAllInBatch();
 			ObjectMapper mapper = new ObjectMapper();
-			Aeropuerto[] aeropuerto = mapper.readValue(new File("./airport-codes_json-min.json"), Aeropuerto[].class);
+			Aeropuerto[] aeropuerto = mapper.readValue(new File("C:/Users/Samuanv/Desktop/Clouding/cloudingAirline/airport-codes_json-min.json"), Aeropuerto[].class);
 			aeroRepository.saveAll(Arrays.asList(aeropuerto));
 	    	
 
