@@ -48,10 +48,12 @@ public class AirlineApplication {
 	    	
 
 	    	// Clean db
-	    	avionRepository.deleteAll();
+	    	avionRepository.deleteAllInBatch();
 	    	vueloRepository.deleteAllInBatch();
 	    	reservaRepository.deleteAllInBatch();
 	    	pasajeroRepository.deleteAllInBatch();
+	    	agenciaRepository.deleteAllInBatch();
+	    	
 
 	    	
 	    	//AEROPUERTOS
@@ -71,13 +73,13 @@ public class AirlineApplication {
 	    	Calendar fsalida = createNewDate(30,05,2018,22,30);
 	    	Calendar freserva = createNewDate(01,01,2018,11,20);
 	    	
-	    	Vuelo vuelo = new Vuelo("E557170", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA, 50, avion, a, a1);
+	    	Vuelo vuelo = new Vuelo("E557170", freserva.getTime(), fsalida.getTime(), fembarque.getTime(), 4, Vuelo.TipoVuelo.IDA, 50, avion, a, a1);
 	    	
 	    	fembarque = createNewDate(25,3,2018,19,40); 
 	    	fsalida = createNewDate(25,3,2018,19,55);
 	    	freserva = createNewDate(25,12,2017,00,01);
 	    	
-	    	Vuelo vuelo1 = new Vuelo("E557171", freserva.getTime() , fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA, 80, avion1, a1, a);
+	    	Vuelo vuelo1 = new Vuelo("E557171", freserva.getTime() , fsalida.getTime(), fembarque.getTime(), 4, Vuelo.TipoVuelo.IDA, 80, avion1, a1, a);
 	    	
 	    	
 	    	// mismo dia, aviones dieferentes
@@ -87,14 +89,14 @@ public class AirlineApplication {
 	    	freserva = createNewDate(8,12,2017,00,01);
 	    
 	    	
-	    	Vuelo vuelo2 = new Vuelo("E557169", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA, 50, avion, a, a1);
+	    	Vuelo vuelo2 = new Vuelo("E557169", freserva.getTime(), fsalida.getTime(), fembarque.getTime(), 4, Vuelo.TipoVuelo.IDA, 50, avion, a, a1);
 	    	
 	    	fembarque = createNewDate(5,10,2018,12,00);
 	    	fsalida = createNewDate(5,10,2018,12,15);
 	    	freserva = createNewDate(8,5,2017,00,01);
 	    
 	    	
-	    	Vuelo vuelo3 = new Vuelo("E550011", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 80, avion1, a, a1);
+	    	Vuelo vuelo3 = new Vuelo("E550011", freserva.getTime(), fsalida.getTime(), fembarque.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 80, avion1, a, a1);
 	    	
 	    	
 	    	fembarque = createNewDate(5,10,2018,16,00);
@@ -102,7 +104,7 @@ public class AirlineApplication {
 	    	freserva = createNewDate(8,5,2017,12,00);
 	    	
 	    	
-	    	Vuelo vuelo4 = new Vuelo("E550022", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 50, avion, a, a1);
+	    	Vuelo vuelo4 = new Vuelo("E550022", freserva.getTime(), fsalida.getTime(), fembarque.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 50, avion, a, a1);
 	    	
 	    	// 3 dias antes/despues
 	    	
@@ -110,19 +112,19 @@ public class AirlineApplication {
 	    	fsalida = createNewDate(2,6,2018,15,15);
 	    	freserva = createNewDate(12,3,2018,22,25);
 	    	
-	    	Vuelo vuelo5 = new Vuelo("E550033", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 70, avion, a1, a);
+	    	Vuelo vuelo5 = new Vuelo("E550033", freserva.getTime(), fsalida.getTime(), fembarque.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 70, avion, a1, a);
 	    	
 	    	fembarque = createNewDate(3,6,2018,15,00);
 	    	fsalida = createNewDate(3,6,2018,15,15);
 	    	freserva = createNewDate(12,3,2018,22,25);
 	    	
-	    	Vuelo vuelo6 = new Vuelo("E550044", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 40, avion, a1, a);
+	    	Vuelo vuelo6 = new Vuelo("E550044", freserva.getTime(), fsalida.getTime(), fembarque.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 40, avion, a1, a);
 	    	
 	    	fembarque = createNewDate(31,5,2018,15,00);
 	    	fsalida = createNewDate(31,5,2018,15,15);
 	    	freserva = createNewDate(12,3,2018,22,25);
 	    	
-	    	Vuelo vuelo7 = new Vuelo("E550055", freserva.getTime(), fembarque.getTime(), fsalida.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 100, avion, a1, a);
+	    	Vuelo vuelo7 = new Vuelo("E550055", freserva.getTime(), fsalida.getTime(), fembarque.getTime(), 4, Vuelo.TipoVuelo.IDA_VUELTA, 100, avion, a1, a);
 
 	    	vueloRepository.save(vuelo);
 	    	vueloRepository.save(vuelo1);
@@ -176,7 +178,7 @@ public class AirlineApplication {
 			fpago = createNewDate(6,2,2018,7,30);
 			Reserva reserva6 = new Reserva(1, true, fpago.getTime(), 4, true, vuelo1, pasajero, agencia);
 
-			reservaRepository.saveAll(Arrays.asList(reserva,reserva1,reserva2,reserva3,reserva4,reserva6));
+			reservaRepository.saveAll(Arrays.asList(reserva,reserva1,reserva2,reserva3,reserva4,reserva5,reserva6));
 			
 			/*Vuelo vEmbarque = vueloRepository.findByNombre("Vuelo2");
 			List<Reserva> sinEmbarcar = reservaRepository.findByAsiento(0);
