@@ -42,10 +42,10 @@ public class AirlineApplication {
 	    	
 	    	
 	    	// IMPORTAR AEROPUERTOS DESDE EL FICHERO JSON REDUCIDO
-	    	/*aeroRepository.deleteAllInBatch();
+	    	aeroRepository.deleteAllInBatch();
 	    	ObjectMapper mapper = new ObjectMapper();
 			Aeropuerto[] aeropuerto = mapper.readValue(new File("./airport-codes_json-min.json"), Aeropuerto[].class);
-			aeroRepository.saveAll(Arrays.asList(aeropuerto));*/
+			aeroRepository.saveAll(Arrays.asList(aeropuerto));
 	    	
 
 	    	// Clean db
@@ -179,7 +179,7 @@ public class AirlineApplication {
 			fpago = createNewDate(6,2,2018,7,30);
 			Reserva reserva6 = new Reserva(1, true, fpago.getTime(), 4, true, vuelo1, pasajero, agencia);
 
-			reservaRepository.saveAll(Arrays.asList(reserva,reserva1,reserva2,reserva3,reserva4,reserva6));
+			reservaRepository.saveAll(Arrays.asList(reserva,reserva1,reserva2,reserva3,reserva4,reserva5,reserva6));
 			
 			/*Vuelo vEmbarque = vueloRepository.findByNombre("Vuelo2");
 			List<Reserva> sinEmbarcar = reservaRepository.findByAsiento(0);
