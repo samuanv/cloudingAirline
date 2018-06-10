@@ -26,6 +26,8 @@ public class VueloService {
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(fecha); 
 		c.add(Calendar.DATE, 1);
+		System.out.println(fecha);
+		System.out.println(c.getTime());
 		List<Vuelo> vuelos = repository.retrieveByFiltersAndFreePax(idOrigen, idDestino, plazas, fecha, c.getTime());
 		return vuelos;
 	}
