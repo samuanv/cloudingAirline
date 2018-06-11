@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import com.clouding.airline.dto.PasajeroDTO;
 import com.clouding.airline.entities.Pasajero;
+import com.clouding.airline.entities.Vuelo;
 import com.clouding.airline.repositories.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ public class PasajeroService {
 
     @Autowired
     PasajeroRepository repository;
+    VueloRepository vueloRepository;
 
     public List<Pasajero> vipCount() {
         return repository.findByCountEmbarque();
@@ -23,10 +25,17 @@ public class PasajeroService {
     public List<Pasajero> save(Iterable<Pasajero> pasajeros) {
         return repository.saveAll(pasajeros);
     }
-    public Pasajero changeName(String id, String nombre) {
-        Pasajero p = repository.findByDni(id);
-        p.setNombre(nombre);
-        return repository.save(p);
+
+    public Pasajero changeName(Long idVuelo, String id, String nombre) {
+        Vuelo vuelo = vueloRepository.findById(idVuelo).get();
+        if ((Math.abs(vuelo.getFechaSalida().getTime() - new Date().getTime()) > 7 * 24 * 60 * 60 * 1000L)){
+            Pasajero p = repository.findByDni(id);
+            p.setNombre(nombre);
+            return repository.save(p);
+        }else {
+            Pasajero p = new Pasajero();
+            return p;
+        }
     }
 
     ModelMapper modelMapper = new ModelMapper();

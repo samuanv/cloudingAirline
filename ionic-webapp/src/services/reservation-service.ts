@@ -1,3 +1,4 @@
+import { ReservationPage } from './../pages/reservation/reservation';
 import { Observable } from 'rxjs/Observable';
 import {Injectable} from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
@@ -24,11 +25,14 @@ export class ReservationService {
     params = params.append('realizado', realizado);
     return this.httpClient.get('http://localhost:8080/reserva/'+agencia_id, {params: params});
   }
-  changeName(id,name): Observable<any> {
-    return this.httpClient.put('http://localhost:8080/pasajero/'+id, name);
+  changeName(reserva): Observable<any> {
+    return this.httpClient.post('http://localhost:8080/reserva/cambiar', reserva);
   }
   generateTicket(embarque): Observable<any> {
     return this.httpClient.post('http://localhost:8080/reserva/embarcar', embarque);
+  }
+  cancelReserva(reserva): Observable<any> {
+    return this.httpClient.post('http://localhost:8080/reserva/cancelar', reserva);
   }
 
 }

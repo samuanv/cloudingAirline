@@ -3,10 +3,12 @@ package com.clouding.airline.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.clouding.airline.entities.Pasajero;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +88,35 @@ public class ReservaService {
 		}
 
 	}
+	public Reserva cancelar(Long idReserva, Long idVuelo) {
+		// Comprobación de las 24 horas en Java para no tener que hacer una Query Nativa
+		// y usar HQL
+		Vuelo vuelo = vueloRepository.findById(idVuelo).get();
+		if ((Math.abs(vuelo.getFechaSalida().getTime() - new Date().getTime()) > 7 * 24 * 60 * 60 * 1000L)) {
+			Reserva r = repository.findById(idReserva).get();
+			r.setActiva(false);
+			repository.save(r);
+			return r;
+		} else {
+			Reserva r = repository.findById(idReserva).get();
+			return r;
+		}
+	}
+	public Reserva cambiarNombre (Long idReserva, Long idVuelo, String idPasajero) {
+		// Comprobación de las 24 horas en Java para no tener que hacer una Query Nativa
+		// y usar HQL
+		Vuelo vuelo = vueloRepository.findById(idVuelo).get();
+		if ((Math.abs(vuelo.getFechaSalida().getTime() - new Date().getTime()) > 7 * 24 * 60 * 60 * 1000L)) {
+			Reserva r = repository.findById(idReserva).get();
+			Pasajero p = pasajeroRepository.findByDni(idPasajero);
+			r.setPasajero(p);
+			repository.save(r);
+			return r;
+		} else {
+			Reserva r = repository.findById(idReserva).get();
+			return r;
+		}
+	}
 	public List<TotalByMonth> totalByMonth() {
 		return repository.findTotalByMonth();
 	}
@@ -100,11 +131,11 @@ public class ReservaService {
 	VueloRepository vueloRepository;
 
 	public ReservaDTO convertToDto(Reserva reserva) {
-		ReservaDTO reservaDTO = modelMapper.map(reserva, ReservaDTO.class);
-		reservaDTO.setAgencia_id(reserva.getAgencia().getId());
-		reservaDTO.setPasajero_id(reserva.getPasajero().getDni());
-		reservaDTO.setVuelo_id(reserva.getVuelo().getId());
-		return reservaDTO;
+			ReservaDTO reservaDTO = modelMapper.map(reserva, ReservaDTO.class);
+			reservaDTO.setAgencia_id(reserva.getAgencia().getId());
+			reservaDTO.setPasajero_id(reserva.getPasajero().getDni());
+			reservaDTO.setVuelo_id(reserva.getVuelo().getId());
+			return reservaDTO;
 	}
 
 	public List<ReservaDTO> convertToDto(List<Reserva> reservas) {

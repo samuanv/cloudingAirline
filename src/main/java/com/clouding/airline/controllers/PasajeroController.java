@@ -4,6 +4,8 @@ import com.clouding.airline.dto.PasajeroDTO;
 import com.clouding.airline.services.PasajeroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -19,9 +21,5 @@ public class PasajeroController {
     @PostMapping
     List<PasajeroDTO> addPasajero(@RequestBody List<PasajeroDTO> pasajeros) {
         return service.convertToDto(service.save(service.convertToPasajero(pasajeros)));
-    }
-    @PutMapping("/{id}")
-    PasajeroDTO changeName(@PathVariable String id, @RequestBody String nombre) {
-        return service.convertToDto(service.changeName(id, nombre));
     }
 }

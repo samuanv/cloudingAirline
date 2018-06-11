@@ -35,8 +35,16 @@ export class ReservationPage {
       title: 'Cambiar Nombre',
       inputs: [
         {
-          name: 'Nombre',
+          name: 'nombre',
           placeholder: 'Nombre'
+        },
+        {
+          name: 'apellidos',
+          placeholder: 'Apellidos'
+        },
+        {
+          name: 'dni',
+          placeholder: 'Dni'
         }
       ],
       buttons: [
@@ -50,7 +58,11 @@ export class ReservationPage {
         {
           text: 'Cambiar',
           handler: data => {
-            this.reservationService.changeName(reserva.pasajero_id, data.Nombre).subscribe( (pasajero) => console.log(pasajero));
+            this.reservationService.createPassengers([data]).subscribe( (pasajero) => {
+              reserva.pasajero_id = pasajero[0].dni;
+              console.log(reserva.pasajero_id);
+              this.reservationService.changeName(reserva).subscribe( (pasajero) => console.log(pasajero));
+            });
           }
         }
       ]
@@ -59,6 +71,10 @@ export class ReservationPage {
   }
 
   cancel( reserva ){
+    reserva.active = false;
+    this.reservationService.cancelReserva(reserva).subscribe(() => {
+      this.reservationService.getReservas(this.agencia_id, false).subscribe( reservas => this.reservas = reservas);
+    });
     console.log(reserva);
   }
   edit( reserva ) {
@@ -67,7 +83,7 @@ export class ReservationPage {
   generate( reserva ){
     this.reservationService.generateTicket({vuelo_id: reserva.vuelo_id, agencia_id: reserva.agencia_id}).subscribe( () => {
       this.reservationService.getReservas(this.agencia_id, false).subscribe( reservas => this.reservas = reservas);
-    } );
+    });
   }
 
 }
