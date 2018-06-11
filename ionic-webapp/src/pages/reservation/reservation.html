@@ -1,0 +1,49 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Reservas</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding class="common-bg">
+  <h1> Reservas Actuales </h1>
+    <ion-list>
+        <ion-item-sliding *ngFor="let reserva of reservas">
+          <ion-item>
+            <h2>Id de Reserva: {{ reserva.id }} - Fecha de pago: {{ getFecha(reserva.fechaPago) }}</h2>
+            <ion-icon *ngIf="reserva.activa" name="checkbox-outline"> Activa</ion-icon>
+            <ion-icon *ngIf="!reserva.activa" name="close-circle"> Cancelada</ion-icon>
+            <ion-icon  name="contact"> Asiento:  {{ reserva.asiento }}</ion-icon>
+            <ion-icon  *ngIf="reserva.embarquePrioritario" name="star"> Embarque prioritario </ion-icon>
+          </ion-item>
+          <ion-item-options side="left">
+            <button ion-button color="primary" (click)="cancel(reserva)">
+              <ion-icon name="close-circle"></ion-icon>
+              Cancelar Vuelo
+            </button>
+            <button ion-button color="secondary" (click)="edit(reserva)">
+              <ion-icon name="create"></ion-icon>
+              Editar nombre
+            </button>
+          </ion-item-options>
+          <ion-item-options side="right" >
+            <button ion-button color="primary" (click)="generate(reserva)">
+              <ion-icon name="document"></ion-icon>
+              Generar tarjeta embarque
+            </button>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+      <h1> Reservas Pasadas</h1>
+    <ion-list>
+          <ion-item *ngFor="let reserva of reservasPasadas">
+            <h2>Id de Reserva: {{ reserva.id }} - Fecha de pago: {{ getFecha(reserva.fechaPago) }}</h2>
+            <ion-icon *ngIf="reserva.activa" name="checkbox-outline"> Activa</ion-icon>
+            <ion-icon *ngIf="!reserva.activa" name="close-circle"> Cancelada</ion-icon>
+            <ion-icon  name="contact"> Asiento:  {{ reserva.asiento }}</ion-icon>
+            <ion-icon  *ngIf="reserva.embarquePrioritario" name="star"> Embarque prioritario </ion-icon>
+          </ion-item>
+      </ion-list>
+</ion-content>

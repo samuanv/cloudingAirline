@@ -1,0 +1,57 @@
+<!-- -->
+<ion-header>
+  <ion-navbar color="primary">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      <strong>Clouding Air</strong>
+    </ion-title>
+    <ion-buttons end>
+      <!--<button ion-button tappable (click)="presentNotifications($event)">
+        <ion-icon name="notifications"></ion-icon>
+      </button> -->
+      <button ion-button tappable (click)="goToAccount()">
+        <ion-icon name="cog"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="animated fadeIn common-bg">
+  <form class="list-form" [formGroup]="fligthForm">
+  <ion-card no-margin margin-bottom class="full-width">
+    <ion-item tappable (click)="choosePlace('from')" class="border-bottom">
+      <ion-icon name="search" color="primary" item-left></ion-icon>
+      <span>Origen: {{ searchO.name }}</span>
+    </ion-item>
+    <ion-item tappable (click)="choosePlace('to')" class="border-bottom">
+      <ion-icon name="search" color="primary" item-left></ion-icon>
+      <span>Destino: {{ searchD.name }}</span>
+    </ion-item>
+    <ion-item class="border-bottom">
+        <ion-label>Viaje IDA/VUELTA</ion-label>
+        <ion-toggle [formControl]="fligthForm.controls['tipo']"></ion-toggle>
+        <!-- <ion-checkbox color="dark" checked="true"></ion-checkbox> -->
+    </ion-item>
+    <ion-item class="border-bottom">
+      <ion-icon name="md-calendar" color="primary" item-left></ion-icon>
+      <ion-datetime class="no-pl" displayFormat="DD/MM/YYYY" pickerFormat="DD/MM/YYYY"
+      [formControl]="fligthForm.controls['fecha']"></ion-datetime>
+    </ion-item>
+    <ion-item  class="border-bottom">
+        <ion-label >Número de pasajeros:</ion-label>
+        <ion-input type="number" [formControl]="fligthForm.controls['plazas']"></ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-label>Buscar también vuelos próximos</ion-label>
+        <ion-toggle [(ngModel)]="isToggled" [ngModelOptions]="{standalone: true}"></ion-toggle>
+        <!-- <ion-checkbox color="dark" checked="true"></ion-checkbox> -->
+    </ion-item>
+  </ion-card>
+  </form>
+  <button ion-button icon-start block no-margin color="primary" class="round" tappable (click)="doSearch()">
+    <ion-icon name="search"></ion-icon> Search
+  </button>
+
+</ion-content>

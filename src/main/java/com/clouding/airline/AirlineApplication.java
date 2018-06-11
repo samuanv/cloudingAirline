@@ -31,7 +31,7 @@ public class AirlineApplication {
 		SpringApplication.run(AirlineApplication.class, args);
 	}
 	
-	@Bean
+	// @Bean
 	public CommandLineRunner loadData(AeropuertoRepository aeroRepository,
 			VueloRepository vueloRepository,
 			AvionRepository avionRepository,

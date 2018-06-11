@@ -1,0 +1,102 @@
+<!-- -->
+<ion-header>
+
+  <ion-navbar color="primary" *ngIf="tripdetail">
+    <ion-title>
+      <span ion-text>{{ tripdetail.nombre }}</span>
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content class="common-bg">
+  <!--slides-->
+  <ion-slides class="to-top" pager>
+    <ion-slide>
+      <img src="assets/img/trip/thumb/trip_5.jpg" alt="">
+    </ion-slide>
+    <ion-slide>
+      <img src="assets/img/trip/thumb/trip_6.jpg" alt="">
+    </ion-slide>
+    <ion-slide>
+      <img src="assets/img/trip/thumb/trip_7.jpg" alt="">
+    </ion-slide>
+    <ion-slide>
+      <img src="assets/img/trip/thumb/trip_8.jpg" alt="">
+    </ion-slide>
+  </ion-slides>
+
+  <!--services-->
+  <ion-grid class="border-bottom dark-bg" *ngIf="tripdetail">
+    <ion-row>
+      <ion-col text-center>
+        <div class="text-sm">
+          <div>
+            <ion-icon name="time" class="text-white"></ion-icon>
+            <span ion-text color="light">{{ tripdetail.duracion }}</span> 
+            <ion-icon name="checkbox-outline" margin-left></ion-icon>
+            <span ion-text color="light">Cancelación gratis</span>
+            <ion-icon name="list-box" margin-left class="text-white"></ion-icon>
+            <span ion-text color="light">Comprobante electrónico</span>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!--address-->
+  <div class="border-bottom" padding>
+      <span ion-text color="primary" class="bold">AEROPUERTO ORIGEN</span>
+      <p ion-text>{{ tripdetail.aeropuertoOrigen_nombre }}</p>
+    <span ion-text color="primary" class="bold">AEROPUERTO DESTINO</span>
+    <p ion-text>{{ tripdetail.aeropuertoDestino_nombre }}</p>
+  </div>
+
+  <ion-grid class="filters" margin-top>
+      <ion-row>
+          <ion-col width-70>
+            <span ion-text color="primary"><strong>{{ tripdetail.tarifa*1.25 | currency:'EUR':true }}</strong> VIP</span>
+          </ion-col>
+          <ion-col width-10 text-center>
+            <ion-icon name="remove-circle" class="text-2x" tappable (click)="minusVip()" [hidden]="vip < 1"
+                      color="secondary"></ion-icon>
+          </ion-col>
+          <ion-col width-10 text-center>{{ vip }}</ion-col>
+          <ion-col width-10 text-center>
+            <ion-icon name="add-circle" class="text-2x" tappable (click)="plusVip()" color="secondary"></ion-icon>
+          </ion-col>
+        </ion-row>
+      <ion-row margin-top>
+        <ion-col class="adult" width-70>
+          <span ion-text color="primary"><strong>{{ tripdetail.tarifa | currency:'EUR':true }}</strong> Adultos</span>
+        </ion-col>
+        <ion-col width-10 text-center>
+          <ion-icon name="remove-circle" class="text-2x" tappable (click)="minusAdult()" [hidden]="adults < 1"
+                    color="secondary"></ion-icon>
+        </ion-col>
+        <ion-col width-10 text-center>{{ adults }}</ion-col>
+        <ion-col width-10 text-center>
+          <ion-icon name="add-circle" class="text-2x" tappable (click)="plusAdult()" color="secondary"></ion-icon>
+        </ion-col>
+      </ion-row>
+      <ion-row margin-top>
+        <ion-col width-70>
+          <span ion-text color="primary"><strong>{{ tripdetail.tarifa/2 | currency:'EUR':true }}</strong> Niños (0-12 años)</span>
+        </ion-col>
+        <ion-col width-10 text-center>
+          <ion-icon name="remove-circle" class="text-2x" tappable (click)="minusChildren()" [hidden]="children < 1"
+                    color="secondary"></ion-icon>
+        </ion-col>
+        <ion-col width-10 text-center>{{ children }}</ion-col>
+        <ion-col width-10 text-center>
+          <ion-icon name="add-circle" class="text-2x" tappable (click)="plusChildren()" color="secondary"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  <div padding class="form-bottom">
+            <button ion-button class="pull-right" color="secondary" tappable (click)="checkout()">Reservar ahora {{ makeSum() | currency:'EUR':true }}
+            </button>
+            <div class="clear"></div>
+          </div>
+</ion-content>
