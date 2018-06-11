@@ -1,9 +1,11 @@
 package com.clouding.airline.services;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -92,7 +94,10 @@ public class ReservaService {
 		// Comprobación de las 24 horas en Java para no tener que hacer una Query Nativa
 		// y usar HQL
 		Vuelo vuelo = vueloRepository.findById(idVuelo).get();
-		if ((Math.abs(vuelo.getFechaSalida().getTime() - new Date().getTime()) > 7 * 24 * 60 * 60 * 1000L)) {
+		long diffInMillies = Math.abs(new Date().getTime() - vuelo.getFechaSalida().getTime());
+		long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+		if ( diff > 6 ) {
 			Reserva r = repository.findById(idReserva).get();
 			r.setActiva(false);
 			repository.save(r);
@@ -106,7 +111,11 @@ public class ReservaService {
 		// Comprobación de las 24 horas en Java para no tener que hacer una Query Nativa
 		// y usar HQL
 		Vuelo vuelo = vueloRepository.findById(idVuelo).get();
-		if ((Math.abs(vuelo.getFechaSalida().getTime() - new Date().getTime()) > 7 * 24 * 60 * 60 * 1000L)) {
+
+		long diffInMillies = Math.abs(new Date().getTime() - vuelo.getFechaSalida().getTime());
+		long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+
+		if ( diff > 6 ) {
 			Reserva r = repository.findById(idReserva).get();
 			Pasajero p = pasajeroRepository.findByDni(idPasajero);
 			r.setPasajero(p);
