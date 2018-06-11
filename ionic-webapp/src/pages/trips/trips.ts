@@ -20,12 +20,12 @@ export class TripsPage {
     // set sample data
 
     if( this.threedays ) {
-      tripService.getVuelosProximos(this.tripModel.fecha).subscribe( (vuelos) => {
+      this.tripService.getVuelosProximos(this.tripModel.fecha).subscribe( (vuelos) => {
         this.closeTrips = vuelos;
       });
     }
 
-    tripService.getVuelos(this.tripModel).subscribe( (vuelos) => {
+    this.tripService.getVuelos(this.tripModel).subscribe( (vuelos) => {
       this.trips = vuelos;
     });
   

@@ -1,4 +1,3 @@
-import { ReservationPage } from './../pages/reservation/reservation';
 import { Observable } from 'rxjs/Observable';
 import {Injectable} from "@angular/core";
 import { HttpClient, HttpParams } from "@angular/common/http";
