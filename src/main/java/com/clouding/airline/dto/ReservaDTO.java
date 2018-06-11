@@ -40,6 +40,15 @@ public class ReservaDTO {
 	public ReservaDTO() {
 		
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	public int getNumBultos() {
 		return numBultos;
 	}

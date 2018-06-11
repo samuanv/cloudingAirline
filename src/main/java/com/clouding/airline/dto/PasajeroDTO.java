@@ -13,6 +13,12 @@ public class PasajeroDTO {
    // private Set<Long> reservas_id = new HashSet<>();
 
 
+    public PasajeroDTO(String dni, String nombre, String apellidos) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+    }
+
     public PasajeroDTO() {
     }
 

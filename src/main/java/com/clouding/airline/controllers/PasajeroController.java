@@ -16,4 +16,12 @@ public class PasajeroController {
     List<PasajeroDTO> getVipCount() {
         return service.convertToDto(service.vipCount());
     }
+    @PostMapping
+    List<PasajeroDTO> addPasajero(@RequestBody List<PasajeroDTO> pasajeros) {
+        return service.convertToDto(service.save(service.convertToPasajero(pasajeros)));
+    }
+    @PutMapping("/{id}")
+    PasajeroDTO changeName(@PathVariable String id, @RequestBody String nombre) {
+        return service.convertToDto(service.changeName(id, nombre));
+    }
 }

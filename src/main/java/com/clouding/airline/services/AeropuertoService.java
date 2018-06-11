@@ -28,26 +28,26 @@ public class AeropuertoService {
 
     public AeropuertoDTO convertToDto(Aeropuerto aeropuerto) {
         AeropuertoDTO aeropuertoDTO = modelMapper.map(aeropuerto, AeropuertoDTO.class);
-        List<Long> vuelosDestinoIds = new ArrayList<>();
+       /* List<Long> vuelosDestinoIds = new ArrayList<>();
         List<Long> vuelosOrigenIds = new ArrayList<>();
         aeropuerto.getVuelosDestino().forEach( vuelosDestino -> vuelosDestinoIds.add(vuelosDestino.getId()));
         aeropuerto.getVuelosOrigen().forEach( vuelosOrigen -> vuelosOrigenIds.add(vuelosOrigen.getId()));
 
         aeropuertoDTO.setVuelosDestino(vuelosDestinoIds);
-        aeropuertoDTO.setVuelosOrigen(vuelosOrigenIds);
+        aeropuertoDTO.setVuelosOrigen(vuelosOrigenIds);*/
         return aeropuertoDTO;
     }
 
     public Aeropuerto convertToAeropuerto(AeropuertoDTO aeropuertoDTO) {
         Aeropuerto aeropuerto = modelMapper.map(aeropuertoDTO, Aeropuerto.class);
-        Set<Vuelo> vuelosDestinoSet = new HashSet<Vuelo>();
+        /*Set<Vuelo> vuelosDestinoSet = new HashSet<Vuelo>();
         Set<Vuelo> vuelosOrigenSet = new HashSet<Vuelo>();
 
         aeropuertoDTO.getVuelosDestino().forEach( vueloDestinoId -> vuelosDestinoSet.add(vueloRepository.findById(vueloDestinoId).get()));
         aeropuertoDTO.getVuelosOrigen().forEach( reservaId -> vuelosOrigenSet.add(vueloRepository.findById(reservaId).get()));
 
         aeropuerto.setVuelosDestino(vuelosDestinoSet);
-        aeropuerto.setVuelosOrigen(vuelosOrigenSet);
+        aeropuerto.setVuelosOrigen(vuelosOrigenSet);*/
 
         return aeropuerto;
     }

@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import com.clouding.airline.dto.PasajeroDTO;
 import com.clouding.airline.entities.Pasajero;
-import com.clouding.airline.entities.Reserva;
 import com.clouding.airline.repositories.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +19,14 @@ public class PasajeroService {
 
     public List<Pasajero> vipCount() {
         return repository.findByCountEmbarque();
+    }
+    public List<Pasajero> save(Iterable<Pasajero> pasajeros) {
+        return repository.saveAll(pasajeros);
+    }
+    public Pasajero changeName(String id, String nombre) {
+        Pasajero p = repository.findByDni(id);
+        p.setNombre(nombre);
+        return repository.save(p);
     }
 
     ModelMapper modelMapper = new ModelMapper();
