@@ -31,7 +31,7 @@ public class AirlineApplication {
 		SpringApplication.run(AirlineApplication.class, args);
 	}
 	
-	// @Bean
+	@Bean
 	public CommandLineRunner loadData(AeropuertoRepository aeroRepository,
 			VueloRepository vueloRepository,
 			AvionRepository avionRepository,
@@ -40,11 +40,10 @@ public class AirlineApplication {
 			AgenciaRepository agenciaRepository) {
 	    return (args) -> {
 	    	
-	    	
-	    	// IMPORTAR AEROPUERTOS DESDE EL FICHERO JSON REDUCIDO
+
 	    	aeroRepository.deleteAllInBatch();
-	    	ObjectMapper mapper = new ObjectMapper();
-			Aeropuerto[] aeropuerto = mapper.readValue(new File("./airport-codes_json-min.json"), Aeropuerto[].class);
+			ObjectMapper mapper = new ObjectMapper();
+			Aeropuerto[] aeropuerto = mapper.readValue(new File("C:/Users/Samuanv/Desktop/Clouding/cloudingAirline/airport-codes_json-min.json"), Aeropuerto[].class);
 			aeroRepository.saveAll(Arrays.asList(aeropuerto));
 	    	
 

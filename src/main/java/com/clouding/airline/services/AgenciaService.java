@@ -21,11 +21,16 @@ public class AgenciaService {
         return repository.findByUsernameAndPassword(username, password);
     }
 
+    public List<Agencia> getAgencias() {
+        return repository.findAll();
+    }
     ModelMapper modelMapper = new ModelMapper();
 
 
     public AgenciaDTO convertToDto(Agencia agencia) {
         AgenciaDTO agenciaDTO = modelMapper.map(agencia, AgenciaDTO.class);
+
+        agenciaDTO.setNum_reservas(agencia.getReservas().size());
         return agenciaDTO;
     }
 

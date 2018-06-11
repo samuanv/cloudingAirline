@@ -22,11 +22,12 @@
         <clr-dg-cell>{{vuelo.nombre}}</clr-dg-cell>
         <clr-dg-cell>{{vuelo.fechaSalida | date:'medium'}}</clr-dg-cell>
         <clr-dg-cell>
-            <span class="flag-icon flag-icon-{{vuelo.aeropuertoOrigen_pais}}"></span>
+            <span class="flag-icon flag-icon-{{vuelo.aeropuertoOrigen_pais | lowercase}}"></span>
             {{vuelo.aeropuertoOrigen_nombre}} ({{vuelo.aeropuertoOrigen_id}})
         </clr-dg-cell>
         <clr-dg-cell>
-            <span class="flag-icon flag-icon-{{vuelo.aeropuertoDestino_pais}}"></span>
+            <span class="flag-icon flag-icon-{{vuelo.aeropuertoDestino_pais | lowercase}}"></span>
+
             {{vuelo.aeropuertoDestino_nombre}} ({{vuelo.aeropuertoDestino_id}})</clr-dg-cell>
         <clr-dg-cell>{{vuelo.tarifa}} €</clr-dg-cell>
         <clr-dg-cell>
@@ -51,53 +52,108 @@
     <clr-dg-footer>{{vuelos?.length}} vuelos</clr-dg-footer>
 </clr-datagrid>
 
-<clr-wizard #wizardlg [(clrWizardOpen)]="wizardOpened" clrWizardSize="lg">
+<clr-wizard #wizard [(clrWizardOpen)]="wizardOpened" (clrWizardOnCancel)="wizardClosed()" (clrWizardOnFinish)="createAvion()" clrWizardSize="lg">
     <clr-wizard-title>Nuevo vuelo</clr-wizard-title>
 
     <clr-wizard-button [type]="'cancel'">Cancelar</clr-wizard-button>
     <clr-wizard-button [type]="'previous'">Atrás</clr-wizard-button>
     <clr-wizard-button [type]="'next'">Siguiente</clr-wizard-button>
-    <clr-wizard-button [type]="'finish'">Finalizar</clr-wizard-button>
+    <clr-wizard-button [type]="'finish'">Finalizar <span class="spinner" *ngIf="loading"></span></clr-wizard-button>
 
-    <clr-wizard-page>
+    <clr-wizard-page [clrWizardPageNextDisabled]="createAvionForm.get('nombre').invalid 
+    || createAvionForm.get('fechaSalida').invalid
+    || createAvionForm.get('horaSalida').invalid
+    || createAvionForm.get('embarque').invalid
+    || createAvionForm.get('tarifa').invalid">
         <ng-template clrPageTitle>General</ng-template>
-        <form>
+        <form [formGroup]="createAvionForm">
             <section class="form-block">
                 <label>Información general</label>
                 <div class="form-group">
-                    <label for="aForm_1">This is a form field</label>
-                    <input type="text" id="aForm_1" placeholder="Enter value here" size="45">
+                    <label for="aForm_1">Nombre</label>
+                    <input formControlName="nombre" type="text" id="aForm_1" placeholder="Nombre descriptivo" size="45">
                 </div>
                 <div class="form-group">
-                    <label for="aForm_2">Another form field</label>
-                    <input type="password" id="aForm_2" placeholder="Enter another value here" size="35">
+                    <label for="aForm_2">Fecha de Salida</label>
+                    <input formControlName="fechaSalida" type="date" id="aForm_2" placeholder="Fecha de salida">
+                    <input formControlName="horaSalida" type="time" id="aForm_2" placeholder="Hora de salida">
                 </div>
                 <div class="form-group">
-                    <label for="aForm_3">A select box</label>
-                    <div class="select">
-                        <select id="aForm_3">
-                            <option>Option 1</option>
-                            <option>Option 2</option>
-                            <option>Option 3</option>
-                            <option>Option 4</option>
-                        </select>
-                    </div>
+                    <label for="aForm_3">Apertura puerta de embarque</label>
+                    <input formControlName="embarque" max=0 type="number" id="aForm_3" placeholder="Minutos antes de la salida" size="35">
                 </div>
                 <div class="form-group">
-                    <label for="aForm_4">Textarea</label>
-                    <textarea id="aForm_4" rows="5"></textarea>
+                    <label for="aForm_4">Tarifa (€)</label>
+                    <input formControlName="tarifa" type="number" id="aForm_4" placeholder="" size="35">
                 </div>
             </section>
         </form>
     </clr-wizard-page>
 
-    <clr-wizard-page>
-        <ng-template clrPageTitle>Page 2</ng-template>
-        ...
+    <clr-wizard-page [clrWizardPageNextDisabled]="createAvionForm.get('aeropuertoOrigen').invalid 
+    || createAvionForm.get('aeropuertoOrigen').invalid">
+        <ng-template clrPageTitle>Origen y destino</ng-template>
+        <form [formGroup]="createAvionForm">
+            <clr-stack-view>
+                <clr-stack-header>Aeropuertos</clr-stack-header>
+
+                <clr-stack-block [clrSbExpanded]="true">
+                    <clr-stack-label>Origen</clr-stack-label>
+                    <clr-stack-content><strong>{{ createAvionForm.get('aeropuertoOrigen').value?.nombre }} </strong>
+                            {{ createAvionForm.get('aeropuertoOrigen').value?.tipo }}
+                            <span class="flag-icon flag-icon-{{createAvionForm.get('aeropuertoOrigen').value?.isoPais | lowercase}}"></span>
+                    </clr-stack-content>
+                    <clr-stack-block>
+                        <clr-stack-label>Desde </clr-stack-label>
+                        <clr-stack-content>
+                            <div class="select">
+                                <select id="selects_1" formControlName="aeropuertoOrigen">
+                                    <option *ngFor="let aer of aeropuertos" [ngValue]="aer">{{aer.nombre}} {{aer.id}}
+                                            
+                                    </option>
+                                </select>
+                            </div>
+                        </clr-stack-content>
+                    </clr-stack-block>
+                </clr-stack-block>
+                <clr-stack-block>
+                    <clr-stack-label>Destino</clr-stack-label>
+                    <clr-stack-content><strong>{{ createAvionForm.get('aeropuertoDestino').value?.nombre }} </strong>
+                            {{ createAvionForm.get('aeropuertoDestino').value?.tipo }}
+                            <span class="flag-icon flag-icon-{{createAvionForm.get('aeropuertoDestino').value?.isoPais | lowercase}}"></span>
+                        </clr-stack-content>
+                    <clr-stack-block>
+                        <clr-stack-label>Hasta </clr-stack-label>
+                        <clr-stack-content>
+                            <div class="select">
+                                <select id="selects_1" formControlName="aeropuertoDestino">
+                                    <option *ngFor="let aer of aeropuertos" [ngValue]="aer">{{aer.nombre}} {{aer.id}}</option>
+                                </select>
+                            </div>
+                        </clr-stack-content>
+                    </clr-stack-block>
+                </clr-stack-block>
+            </clr-stack-view>
+        </form>
     </clr-wizard-page>
 
-    <clr-wizard-page>
-        <ng-template clrPageTitle>Page 3</ng-template>
-        ...
+    <clr-wizard-page [clrWizardPageNextDisabled]="!avionSelected">
+        <ng-template clrPageTitle>Avión</ng-template>
+        <clr-datagrid [(clrDgSingleSelected)]="avionSelected">
+            <clr-dg-column>Modelo</clr-dg-column>
+            <clr-dg-column>Nombre
+            </clr-dg-column>
+            <clr-dg-column>Plazas
+            </clr-dg-column>
+
+            <clr-dg-row *ngFor="let avion of aviones" [clrDgItem]="avion">
+                <clr-dg-cell>{{avion.modelo}}</clr-dg-cell>
+                <clr-dg-cell>{{avion.nombre}}</clr-dg-cell>
+                <clr-dg-cell>{{avion.plazas}}</clr-dg-cell>
+            </clr-dg-row>
+
+            <clr-dg-footer>{{aviones?.length}} aviones</clr-dg-footer>
+        </clr-datagrid>
+
     </clr-wizard-page>
 </clr-wizard>

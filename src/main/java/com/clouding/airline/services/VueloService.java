@@ -26,6 +26,8 @@ public class VueloService {
 		Calendar c = Calendar.getInstance(); 
 		c.setTime(fecha); 
 		c.add(Calendar.DATE, 1);
+		System.out.println(fecha);
+		System.out.println(c.getTime());
 		List<Vuelo> vuelos = repository.retrieveByFiltersAndFreePax(idOrigen, idDestino, plazas, fecha, c.getTime());
 		return vuelos;
 	}
@@ -57,7 +59,8 @@ public class VueloService {
 		vueloDTO.setPlazasTotales(vuelo.getAvion().getPlazas());
 		vueloDTO.setAeropuertoDestino_nombre(vuelo.getAeropuertoDestino().getNombre());
 		vueloDTO.setAeropuertoOrigen_nombre(vuelo.getAeropuertoOrigen().getNombre());
-
+		vueloDTO.setAeropuertoDestino_pais(vuelo.getAeropuertoDestino().getIsoPais());
+		vueloDTO.setAeropuertoOrigen_pais(vuelo.getAeropuertoOrigen().getIsoPais());
 		return vueloDTO;
 	}
 
@@ -71,6 +74,11 @@ public class VueloService {
 
 	public Vuelo convertToVuelo(VueloDTO vueloDTO) {
 		Vuelo vuelo = modelMapper.map(vueloDTO, Vuelo.class);
+
+		System.out.println(vueloDTO.getAeropuertoDestino_id());
+		System.out.println(vueloDTO.getAeropuertoOrigen_id());
+		System.out.println(vueloDTO.getAvion_id());
+		System.out.println(vueloDTO.getNombre());
 		vuelo.setAeropuertoDestino(aeropuertoRepository.findById(vueloDTO.getAeropuertoDestino_id()));
 		vuelo.setAeropuertoOrigen(aeropuertoRepository.findById(vueloDTO.getAeropuertoOrigen_id()));
 		vuelo.setAvion(avionRepository.findById(vueloDTO.getAvion_id()).get());

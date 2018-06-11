@@ -19,7 +19,33 @@ public class VueloDTO {
 	String aeropuertoDestino_id;
 	String aeropuertoOrigen_nombre;
 	String aeropuertoDestino_nombre;
-	
+	String aeropuertoOrigen_pais;
+	String aeropuertoDestino_pais;
+
+	/**
+	 * @return the aeropuertoDestino_pais
+	 */
+	public String getAeropuertoDestino_pais() {
+		return aeropuertoDestino_pais;
+	}
+	/**
+	 * @param aeropuertoDestino_pais the aeropuertoDestino_pais to set
+	 */
+	public void setAeropuertoDestino_pais(String aeropuertoDestino_pais) {
+		this.aeropuertoDestino_pais = aeropuertoDestino_pais;
+	}
+	/**
+	 * @return the aeropuertoOrigen_pais
+	 */
+	public String getAeropuertoOrigen_pais() {
+		return aeropuertoOrigen_pais;
+	}
+	/**
+	 * @param aeropuertoOrigen_pais the aeropuertoOrigen_pais to set
+	 */
+	public void setAeropuertoOrigen_pais(String aeropuertoOrigen_pais) {
+		this.aeropuertoOrigen_pais = aeropuertoOrigen_pais;
+	}
 	public int getPlazasTotales() {
 		return plazasTotales;
 	}
